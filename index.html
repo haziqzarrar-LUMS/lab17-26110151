@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1A1A1A">
-  <title>BurgerKhan | Dil se Khan, pait se pehelwan.</title>
+  <title>BurgerKhan Fight Night | Dil se Khan, pait se pehelwan.</title>
   <meta name="description" content="Pehelwan-sized smash burgers, delivered across Lahore. Step into the BurgerKhan akhaara.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,6 +37,24 @@
       line-height: 1.55;
     }
 
+    body::before {
+      position: fixed;
+      z-index: 0;
+      inset: -30px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='3' cy='3' r='1.5' fill='%231A1A1A'/%3E%3C/svg%3E");
+      background-size: 16px 16px;
+      content: "";
+      opacity: 0.1;
+      pointer-events: none;
+      animation: dots-drift 14s linear infinite;
+    }
+
+    main,
+    .site-footer {
+      position: relative;
+      z-index: 1;
+    }
+
     a {
       color: inherit;
     }
@@ -48,12 +66,18 @@
     }
 
     .site-header {
-      position: relative;
-      z-index: 2;
+      position: sticky;
+      top: 0;
+      z-index: 5;
       padding: 1rem max(1.25rem, calc((100% - 1180px) / 2));
       border-bottom: 4px solid var(--gold);
       background: var(--ink);
       color: var(--cream);
+      transition: transform 180ms ease;
+    }
+
+    .site-header.header-hidden {
+      transform: translateY(-110%);
     }
 
     .header-inner {
@@ -145,6 +169,7 @@
       background: var(--gold);
       clip-path: polygon(50% 0, 58% 34%, 86% 13%, 70% 43%, 100% 50%, 68% 58%, 87% 87%, 58% 68%, 50% 100%, 42% 68%, 13% 87%, 32% 58%, 0 50%, 32% 42%, 13% 13%, 42% 32%);
       transform: rotate(12deg);
+      animation: sunburst-turn 34s linear infinite;
     }
 
     .hero-inner {
@@ -923,9 +948,474 @@
       }
     }
 
+    .atmosphere {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .floaty {
+      position: absolute;
+      bottom: -4rem;
+      font-size: clamp(1.5rem, 3vw, 2.8rem);
+      opacity: 0.18;
+      animation: float-up var(--float-time, 16s) linear infinite;
+      animation-delay: var(--float-delay, 0s);
+    }
+
+    .floaty:nth-child(1) { left: 8%; --float-time: 19s; }
+    .floaty:nth-child(2) { left: 31%; --float-time: 15s; --float-delay: -7s; }
+    .floaty:nth-child(3) { left: 55%; --float-time: 21s; --float-delay: -12s; }
+    .floaty:nth-child(4) { left: 78%; --float-time: 17s; --float-delay: -4s; }
+    .floaty:nth-child(5) { left: 92%; --float-time: 23s; --float-delay: -16s; }
+
+    .round-flash {
+      position: fixed;
+      z-index: 20;
+      top: 50%;
+      left: 50%;
+      display: grid;
+      min-width: min(18rem, calc(100vw - 2rem));
+      place-items: center;
+      padding: 1rem 2rem;
+      border: 5px solid var(--ink);
+      background: var(--gold);
+      box-shadow: 9px 9px 0 var(--ink);
+      font-family: var(--display);
+      font-size: clamp(3.2rem, 12vw, 6rem);
+      line-height: 0.9;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0.5) rotate(-8deg);
+    }
+
+    .round-flash.is-active {
+      animation: round-card 1350ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+    }
+
+    .round-flash-bell {
+      display: block;
+      width: 2.6rem;
+      height: 2.6rem;
+      margin: 0 auto 0.25rem;
+      transform-origin: 50% 10%;
+    }
+
+    .round-flash.is-active .round-flash-bell {
+      animation: bell-ring 450ms 80ms ease-in-out 2;
+    }
+
+    .round-flash-bell path {
+      fill: var(--red);
+      stroke: var(--ink);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 3;
+    }
+
+    .roster-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .roster {
+      display: flex;
+      gap: 0.9rem;
+      overflow-x: auto;
+      padding: 0.9rem 0.75rem 1.3rem;
+      scroll-snap-type: x mandatory;
+      scrollbar-color: var(--red) var(--cream);
+    }
+
+    .fighter-choice {
+      flex: 0 0 10.5rem;
+      min-height: 12rem;
+      padding: 0.8rem;
+      border: 4px solid var(--ink);
+      background: var(--cream);
+      box-shadow: 5px 5px 0 var(--ink);
+      font-family: var(--display);
+      font-size: 1.5rem;
+      line-height: 0.95;
+      text-align: left;
+      cursor: pointer;
+      scroll-snap-align: start;
+      transform: rotate(-2deg);
+    }
+
+    .fighter-choice:nth-child(even) {
+      background: var(--gold);
+      transform: rotate(2deg) translateY(0.4rem);
+    }
+
+    .fighter-choice[aria-pressed="true"] {
+      background: var(--red);
+      color: var(--cream);
+      transform: rotate(-1deg) translateY(-0.2rem);
+    }
+
+    .fighter-choice-emoji {
+      display: block;
+      margin-bottom: 0.75rem;
+      font-family: var(--body);
+      font-size: 3.8rem;
+      line-height: 1;
+    }
+
+    .fighter-preview {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(8rem, 0.7fr) 1.3fr;
+      align-items: center;
+      gap: 1.4rem;
+      padding: 1.4rem;
+      border: 5px solid var(--ink);
+      background: var(--gold);
+      box-shadow: 9px 9px 0 var(--ink);
+      transform: rotate(1deg);
+    }
+
+    .fighter-preview-emoji {
+      display: grid;
+      min-height: 13rem;
+      place-items: center;
+      border: 4px solid var(--ink);
+      background: var(--cream);
+      font-size: clamp(6rem, 13vw, 10rem);
+      line-height: 1;
+    }
+
+    .fighter-preview h3 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 400;
+      line-height: 0.9;
+      text-transform: uppercase;
+    }
+
+    .fighter-preview p {
+      margin: 0.65rem 0;
+      font-weight: 600;
+    }
+
+    .fighter-price {
+      display: block;
+      margin: 0.7rem 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .stat {
+      display: grid;
+      grid-template-columns: 5.3rem 1fr;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.45rem 0;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .stat-track {
+      height: 0.85rem;
+      border: 2px solid var(--ink);
+      background: var(--cream);
+    }
+
+    .stat-fill {
+      display: block;
+      width: var(--stat);
+      height: 100%;
+      background: var(--red);
+    }
+
+    .fighter-preview .button {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .corner-menu {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem 1rem;
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 4px solid var(--ink);
+      background: var(--cream);
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    .corner-menu h3 {
+      grid-column: 1 / -1;
+      margin: 0;
+      font-family: var(--display);
+      font-size: 2.2rem;
+      font-weight: 400;
+    }
+
+    .corner-menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      padding: 0.55rem 0;
+      border-bottom: 2px dashed var(--ink);
+    }
+
+    .corner-menu-item span {
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .corner-menu-item .button {
+      min-height: 2.5rem;
+      padding: 0.45rem 0.65rem;
+      font-size: 1.1rem;
+      white-space: nowrap;
+    }
+
+    .builder-section {
+      border-top: 5px solid var(--ink);
+      border-bottom: 5px solid var(--ink);
+      background: var(--red);
+    }
+
+    .builder-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .builder-panel {
+      padding: 1.4rem;
+      border: 5px solid var(--ink);
+      background: var(--cream);
+      box-shadow: 9px 9px 0 var(--ink);
+      transform: rotate(-1deg);
+    }
+
+    .builder-stack {
+      display: flex;
+      min-height: 16rem;
+      flex-direction: column-reverse;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.4rem 1rem 0.5rem;
+      border: 4px solid var(--ink);
+      border-bottom-width: 8px;
+      background: var(--gold);
+      overflow: hidden;
+    }
+
+    .builder-empty {
+      align-self: center;
+      margin: auto;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .burger-layer {
+      position: relative;
+      display: grid;
+      width: min(100%, 17rem);
+      min-height: 1.3rem;
+      place-items: center;
+      border: 3px solid var(--ink);
+      font-size: 0.72rem;
+      font-weight: 800;
+      line-height: 1.1;
+      text-align: center;
+      animation: layer-drop 420ms cubic-bezier(0.2, 1.5, 0.45, 1) both;
+    }
+
+    .burger-layer.bun {
+      min-height: 2.2rem;
+      border-radius: 2rem 2rem 0.5rem 0.5rem;
+      background: var(--gold);
+    }
+
+    .burger-layer.patty {
+      min-height: 1.45rem;
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .burger-layer.cheese {
+      min-height: 0.85rem;
+      background: var(--gold);
+    }
+
+    .burger-layer.chilli {
+      min-height: 0.9rem;
+      background: var(--red);
+      color: var(--cream);
+    }
+
+    .burger-layer.sauce {
+      min-height: 0.75rem;
+      background: var(--red);
+    }
+
+    .patty-counter {
+      position: relative;
+      margin: 1rem auto 0;
+      width: fit-content;
+      padding: 0.35rem 0.8rem;
+      border: 3px solid var(--ink);
+      background: var(--gold);
+      font-family: var(--display);
+      font-size: 1.5rem;
+      transform: rotate(-2deg);
+    }
+
+    .patty-counter.cracked::after {
+      position: absolute;
+      inset: -4px;
+      background: var(--red);
+      clip-path: polygon(47% 0, 55% 0, 51% 39%, 68% 48%, 54% 57%, 59% 100%, 47% 100%, 50% 62%, 34% 53%, 47% 43%);
+      content: "";
+      pointer-events: none;
+    }
+
+    .builder-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .builder-controls .button {
+      width: 100%;
+      padding: 0.7rem 0.45rem;
+      font-size: 1.25rem;
+    }
+
+    .builder-controls .button:disabled {
+      background: var(--cream);
+      cursor: not-allowed;
+      opacity: 0.72;
+    }
+
+    .builder-price {
+      margin: 1rem 0 0;
+      font-family: var(--display);
+      font-size: 2.6rem;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .builder-add {
+      width: 100%;
+      margin-top: 0.8rem;
+    }
+
+    .round-story {
+      border-top: 5px solid var(--ink);
+      border-bottom: 5px solid var(--ink);
+      background-color: var(--gold);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Ccircle cx='2' cy='2' r='1' fill='%231A1A1A'/%3E%3C/svg%3E");
+      background-size: 14px 14px;
+    }
+
+    .round-heading {
+      display: inline-block;
+      margin: 0 0 1.4rem;
+      padding: 0.1em 0.2em;
+      border: 4px solid var(--ink);
+      background: var(--cream);
+      box-shadow: 6px 6px 0 var(--ink);
+      font-family: var(--display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1;
+      transform: rotate(-2deg);
+    }
+
+    .order-section {
+      border-top: 5px solid var(--ink);
+    }
+
+    @keyframes dots-drift {
+      to { background-position: 96px 96px; }
+    }
+
+    @keyframes sunburst-turn {
+      to { rotate: 372deg; }
+    }
+
+    @keyframes float-up {
+      from { transform: translateY(0) rotate(-10deg); }
+      to { transform: translateY(-115vh) rotate(25deg); }
+    }
+
+    @keyframes round-card {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.45) rotate(-8deg); }
+      18%, 72% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(2deg); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8) rotate(-3deg); }
+    }
+
+    @keyframes bell-ring {
+      0%, 100% { rotate: 0deg; }
+      20%, 60% { rotate: 18deg; }
+      40%, 80% { rotate: -18deg; }
+    }
+
+    @keyframes layer-drop {
+      0% { opacity: 0; transform: translateY(-3rem) scale(1.08, 0.7); }
+      65% { opacity: 1; transform: translateY(0.2rem) scale(0.92, 1.12); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 760px) {
+      .roster-layout,
+      .builder-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .fighter-preview {
+        grid-template-columns: minmax(7rem, 0.65fr) 1.35fr;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .fighter-preview {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+
+      .fighter-preview-emoji {
+        min-height: 10rem;
+        font-size: 7rem;
+      }
+
+      .corner-menu {
+        grid-template-columns: 1fr;
+      }
+
+      .corner-menu h3 {
+        grid-column: auto;
+      }
+
+      .builder-panel {
+        padding: 0.85rem;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
+      }
+
+      .round-flash.is-active {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+        animation: none !important;
       }
 
       *,
@@ -940,6 +1430,19 @@
   </style>
 </head>
 <body>
+  <div class="atmosphere" aria-hidden="true">
+    <span class="floaty">🍔</span>
+    <span class="floaty">🌶️</span>
+    <span class="floaty">💪</span>
+    <span class="floaty">🍔</span>
+    <span class="floaty">🌶️</span>
+  </div>
+  <div class="round-flash" id="round-flash" aria-live="polite" aria-atomic="true">
+    <svg class="round-flash-bell" viewBox="0 0 48 48" aria-hidden="true">
+      <path d="M11 33h26l-4-5V18a9 9 0 0 0-18 0v10l-4 5Zm9 5a4 4 0 0 0 8 0" />
+    </svg>
+    <span id="round-flash-title"></span>
+  </div>
   <header class="site-header" id="home">
     <div class="header-inner">
       <a class="brand" href="#home" aria-label="BurgerKhan home">
@@ -947,20 +1450,21 @@
         <span class="brand-tagline">Dil se Khan, pait se pehelwan.</span>
       </a>
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="#menu">Menu</a>
-        <a href="#story">Our story</a>
-        <a href="#order">Order</a>
+        <a href="#menu">Round 1</a>
+        <a href="#builder">Round 2</a>
+        <a href="#story">Round 3</a>
+        <a href="#order">Final round</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero" data-round="ENTRANCE" aria-labelledby="hero-title">
       <div class="hero-inner">
         <div class="fight-poster">
-          <h1 id="hero-title"><span>Pehelwan<br>Stack</span><span class="versus">Versus</span><span>Your<br>Bhook</span></h1>
-          <p class="hero-copy">Triple smash. Double cheese. Khan sauce. Lahore, your hunger has picked a fight it cannot win.</p>
-          <a class="button" href="#menu">Meet the contenders</a>
+          <h1 id="hero-title"><span>Pehelwan<br>Stack</span><span class="versus">Vs</span><span>Your<br>Bhook</span></h1>
+          <p class="hero-copy">Welcome to BurgerKhan Fight Night! Triple smash, double cheese, Khan sauce. Lahore, your hunger has picked a fight it cannot win.</p>
+          <a class="button" href="#menu">Choose your fighter</a>
         </div>
         <div class="hero-art" aria-hidden="true">
           <div class="hero-burger">🍔</div>
@@ -969,99 +1473,78 @@
       </div>
     </section>
 
-    <section class="menu-section" id="menu" aria-labelledby="menu-title">
+    <section class="menu-section" id="menu" data-round="ROUND 1" aria-labelledby="menu-title">
       <div class="section-inner">
-        <h2 class="section-heading" id="menu-title">Nine contenders.<br>Zero weak bites.</h2>
-        <p class="section-intro">Pick your fighter. Tap “Add to order”. Bas, the kitchen bell has been rung.</p>
-
-        <div class="menu-category">
-          <h3 class="category-heading">Burgers</h3>
-          <div class="menu-grid">
-            <article class="menu-card featured" data-item="Pehelwan Stack">
-              <span class="badge">Champion</span>
-              <span class="menu-card-emoji" aria-hidden="true">🍔</span>
-              <h3>Pehelwan Stack</h3>
-              <p>Triple smash patty, double cheese, Khan sauce, fries.</p>
-              <span class="price">Rs 1,099</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
-            <article class="menu-card" data-item="Khan Classic">
-              <span class="menu-card-emoji" aria-hidden="true">🥊</span>
-              <h3>Khan Classic</h3>
-              <p>Double smash, sharp cheddar, house pickles.</p>
-              <span class="price">Rs 749</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
-            <article class="menu-card" data-item="Mirchi Mania">
-              <span class="menu-card-emoji" aria-hidden="true">🌶️</span>
-              <h3>Mirchi Mania</h3>
-              <p>Smash patty, green chilli, spicy Khan sauce.</p>
-              <span class="price">Rs 799</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
+        <h2 class="section-heading" id="menu-title">Round 1: Choose your fighter</h2>
+        <p class="section-intro">The roster is ready. Pick a contender to see their stats, then send them to Your Corner.</p>
+        <div class="roster-layout">
+          <div class="roster" role="group" aria-label="Burger fighter roster">
+            <button class="fighter-choice" type="button" data-fighter="stack" aria-pressed="true">
+              <span class="fighter-choice-emoji" aria-hidden="true">🍔</span>Pehelwan Stack
+            </button>
+            <button class="fighter-choice" type="button" data-fighter="classic" aria-pressed="false">
+              <span class="fighter-choice-emoji" aria-hidden="true">🥊</span>Khan Classic
+            </button>
+            <button class="fighter-choice" type="button" data-fighter="mirchi" aria-pressed="false">
+              <span class="fighter-choice-emoji" aria-hidden="true">🌶️</span>Mirchi Mania
+            </button>
           </div>
+          <article class="fighter-preview" aria-live="polite">
+            <span class="badge">Champion</span>
+            <div class="fighter-preview-emoji" id="fighter-emoji" aria-hidden="true">🍔</div>
+            <div>
+              <h3 id="fighter-name">Pehelwan Stack</h3>
+              <p id="fighter-description">Triple smash patty, double cheese, Khan sauce, fries.</p>
+              <span class="fighter-price" id="fighter-price">Rs 1,099</span>
+              <div class="stat"><span>Power</span><span class="stat-track"><span class="stat-fill" id="stat-power" style="--stat: 100%"></span></span></div>
+              <div class="stat"><span>Spice</span><span class="stat-track"><span class="stat-fill" id="stat-spice" style="--stat: 48%"></span></span></div>
+              <div class="stat"><span>Cheese pull</span><span class="stat-track"><span class="stat-fill" id="stat-cheese" style="--stat: 92%"></span></span></div>
+              <button class="button" id="fighter-add" type="button">Add to order</button>
+            </div>
+          </article>
         </div>
-
-        <div class="menu-category">
-          <h3 class="category-heading">Sides</h3>
-          <div class="menu-grid">
-            <article class="menu-card" data-item="Akhaara Fries">
-              <span class="menu-card-emoji" aria-hidden="true">🍟</span>
-              <h3>Akhaara Fries</h3>
-              <p>Golden, crunchy fries with a little fight.</p>
-              <span class="price">Rs 299</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
-            <article class="menu-card" data-item="Loaded Knockout">
-              <span class="menu-card-emoji" aria-hidden="true">🧀</span>
-              <h3>Loaded Knockout</h3>
-              <p>Fries piled high with cheese and Khan sauce.</p>
-              <span class="price">Rs 449</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
-            <article class="menu-card" data-item="Onion Uppercut">
-              <span class="menu-card-emoji" aria-hidden="true">🧅</span>
-              <h3>Onion Uppercut</h3>
-              <p>Crunchy onion rings. One tasty takedown.</p>
-              <span class="price">Rs 349</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
-          </div>
-        </div>
-
-        <div class="menu-category">
-          <h3 class="category-heading">Drinks</h3>
-          <div class="menu-grid">
-            <article class="menu-card" data-item="Cola Corner">
-              <span class="menu-card-emoji" aria-hidden="true">🥤</span>
-              <h3>Cola Corner</h3>
-              <p>Ice-cold fizz to tag in with your burger.</p>
-              <span class="price">Rs 199</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
-            <article class="menu-card" data-item="Nimbu Slam">
-              <span class="menu-card-emoji" aria-hidden="true">🍋</span>
-              <h3>Nimbu Slam</h3>
-              <p>Fresh lemon, cool sip, full reset.</p>
-              <span class="price">Rs 249</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
-            <article class="menu-card" data-item="Mango Muscle">
-              <span class="menu-card-emoji" aria-hidden="true">🥛</span>
-              <h3>Mango Muscle</h3>
-              <p>Thick mango shake with heavyweight energy.</p>
-              <span class="price">Rs 399</span>
-              <button class="button add-button" type="button">Add to order</button>
-            </article>
-          </div>
+        <div class="corner-menu" aria-label="Sides and drinks menu">
+          <h3>Corner crew</h3>
+          <div class="corner-menu-item"><span>🍟 Akhaara Fries — Rs 299</span><button class="button add-button" type="button" data-item="Akhaara Fries">Add to order</button></div>
+          <div class="corner-menu-item"><span>🧀 Loaded Knockout — Rs 449</span><button class="button add-button" type="button" data-item="Loaded Knockout">Add to order</button></div>
+          <div class="corner-menu-item"><span>🧅 Onion Uppercut — Rs 349</span><button class="button add-button" type="button" data-item="Onion Uppercut">Add to order</button></div>
+          <div class="corner-menu-item"><span>🥤 Cola Corner — Rs 199</span><button class="button add-button" type="button" data-item="Cola Corner">Add to order</button></div>
+          <div class="corner-menu-item"><span>🍋 Nimbu Slam — Rs 249</span><button class="button add-button" type="button" data-item="Nimbu Slam">Add to order</button></div>
+          <div class="corner-menu-item"><span>🥛 Mango Muscle — Rs 399</span><button class="button add-button" type="button" data-item="Mango Muscle">Add to order</button></div>
         </div>
       </div>
     </section>
 
-    <section class="story" id="story" aria-labelledby="story-title">
+    <section class="builder-section" id="builder" data-round="ROUND 2" aria-labelledby="builder-title">
+      <div class="section-inner builder-layout">
+        <div>
+          <h2 class="section-heading" id="builder-title">Round 2: Build your pehelwan</h2>
+          <p class="section-intro">Stack your own champion. Every layer costs a little; at three patties, that counter gets cracked.</p>
+          <p class="round-heading">Build it. Own it.</p>
+        </div>
+        <div class="builder-panel">
+          <div class="builder-stack" id="builder-stack" aria-label="Your burger layers">
+            <p class="builder-empty" id="builder-empty">Your corner is waiting. Add a layer!</p>
+          </div>
+          <p class="patty-counter" id="patty-counter" aria-live="polite">Patties: <span id="patty-count">0</span> / 3</p>
+          <div class="builder-controls" aria-label="Burger ingredients">
+            <button class="button builder-ingredient" type="button" data-layer="bun" data-label="Bun" data-price="100">Add bun · Rs 100</button>
+            <button class="button builder-ingredient" type="button" data-layer="patty" data-label="Smash patty" data-price="250">Add patty · Rs 250</button>
+            <button class="button builder-ingredient" type="button" data-layer="cheese" data-label="Cheese" data-price="100">Add cheese · Rs 100</button>
+            <button class="button builder-ingredient" type="button" data-layer="chilli" data-label="Chillies" data-price="30">Add chillies · Rs 30</button>
+            <button class="button builder-ingredient" type="button" data-layer="sauce" data-label="Khan sauce" data-price="50">Add Khan sauce · Rs 50</button>
+          </div>
+          <p class="builder-price" aria-live="polite">Total: <span id="builder-price">Rs 0</span></p>
+          <button class="button builder-add" id="builder-add" type="button" disabled>Add to order</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="story round-story" id="story" data-round="ROUND 3" aria-labelledby="story-title">
       <div class="section-inner story-layout">
         <div class="story-copy">
-          <h2 class="section-heading" id="story-title">The pehelwan story</h2>
+          <h2 class="section-heading" id="story-title">Round 3: The story</h2>
+          <p class="round-heading">From akhaara to appetite</p>
           <p>Every pehelwan knows: show up hungry, leave stronger. BurgerKhan brings that ring-side spirit to Lahore, one hot smash burger at a time.</p>
           <p>Our signature Pehelwan Stack comes in swinging with triple smash patty, double cheese, Khan sauce and fries. No warm-up required. Bas, take a bite.</p>
           <p class="hours">Open 6 pm to 3 am, every day</p>
@@ -1070,10 +1553,10 @@
       </div>
     </section>
 
-    <section class="order-section" id="order" aria-labelledby="order-title">
+    <section class="order-section" id="order" data-round="FINAL ROUND" aria-labelledby="order-title">
       <div class="section-inner order-layout">
         <div>
-          <h2 class="section-heading" id="order-title">Call your order</h2>
+          <h2 class="section-heading" id="order-title">Final round: Place your order</h2>
           <p class="order-note">Tell us what you want. We’ll bring the dangal to your door.</p>
           <p class="hours">Open 6 pm to 3 am, every day</p>
           <div class="order-bag" aria-live="polite">
@@ -1096,6 +1579,7 @@
             <label for="order-item">Item</label>
             <select id="order-item" name="item" required>
               <option value="">Choose your contender</option>
+              <option>Custom Pehelwan</option>
               <option>Pehelwan Stack</option>
               <option>Khan Classic</option>
               <option>Mirchi Mania</option>
@@ -1123,6 +1607,7 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <p class="footer-brand">BURGERKHAN</p>
+      <p class="brand-tagline">Dil se Khan, pait se pehelwan.</p>
       <p>@burgerkhan.pk &nbsp;·&nbsp; Lahore</p>
       <p>Akhaaray mein utro: DM @burgerkhan.pk aur abhi order karo.</p>
     </div>
@@ -1141,8 +1626,68 @@
     const bagEmpty = document.querySelector("#bag-empty");
     const orderItems = new Map();
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const itemPrices = new Map([
+      ["Pehelwan Stack", 1099],
+      ["Khan Classic", 749],
+      ["Mirchi Mania", 799],
+      ["Akhaara Fries", 299],
+      ["Loaded Knockout", 449],
+      ["Onion Uppercut", 349],
+      ["Cola Corner", 199],
+      ["Nimbu Slam", 249],
+      ["Mango Muscle", 399]
+    ]);
+    const fighters = {
+      stack: {
+        name: "Pehelwan Stack",
+        emoji: "🍔",
+        description: "Triple smash patty, double cheese, Khan sauce, fries.",
+        price: 1099,
+        power: 100,
+        spice: 48,
+        cheese: 92,
+        champion: true
+      },
+      classic: {
+        name: "Khan Classic",
+        emoji: "🥊",
+        description: "Double smash, sharp cheddar, house pickles.",
+        price: 749,
+        power: 76,
+        spice: 30,
+        cheese: 70,
+        champion: false
+      },
+      mirchi: {
+        name: "Mirchi Mania",
+        emoji: "🌶️",
+        description: "Smash patty, green chilli, spicy Khan sauce.",
+        price: 799,
+        power: 70,
+        spice: 100,
+        cheese: 46,
+        champion: false
+      }
+    };
+    const builderLayers = [];
+    const roundFlash = document.querySelector("#round-flash");
+    const roundFlashTitle = document.querySelector("#round-flash-title");
+    const builderStack = document.querySelector("#builder-stack");
+    const builderEmpty = document.querySelector("#builder-empty");
+    const pattyCounter = document.querySelector("#patty-counter");
+    const pattyCountLabel = document.querySelector("#patty-count");
+    const builderPriceLabel = document.querySelector("#builder-price");
+    const builderAddButton = document.querySelector("#builder-add");
+    let builderTotal = 0;
+    let displayedBuilderTotal = 0;
+    let priceAnimation;
+    let customRecipe = "";
 
     requestAnimationFrame(() => document.body.classList.add("page-ready"));
+
+    function formatPrice(value) {
+      return `Rs ${value.toLocaleString("en-US")}`;
+    }
 
     function isValidPhone(value) {
       return /^03\d{2}-?\d{7}$/.test(value);
@@ -1168,7 +1713,10 @@
 
       for (const [item, quantity] of orderItems) {
         const line = document.createElement("li");
-        line.textContent = `${item} × ${quantity}`;
+        const price = itemPrices.get(item);
+        const details = item === "Custom Pehelwan" && customRecipe ? ` (${customRecipe})` : "";
+        const priceText = price === undefined ? "" : ` · ${formatPrice(price)}`;
+        line.textContent = `${item}${details}${priceText} × ${quantity}`;
         bagItems.append(line);
       }
     }
@@ -1181,14 +1729,96 @@
       formSuccess.hidden = true;
     }
 
-    document.querySelectorAll(".menu-card").forEach((card) => {
-      const button = card.querySelector(".add-button");
+    function addItemToOrder(item, button) {
+      const quantity = (orderItems.get(item) || 0) + 1;
+      setOrderItem(item, quantity);
+      showDhishoom(button);
+    }
+
+    document.querySelectorAll(".add-button").forEach((button) => {
       button.addEventListener("click", () => {
-        const item = card.dataset.item;
-        const quantity = (orderItems.get(item) || 0) + 1;
-        setOrderItem(item, quantity);
-        showDhishoom(button);
+        addItemToOrder(button.dataset.item, button);
       });
+    });
+
+    const fighterAddButton = document.querySelector("#fighter-add");
+    let selectedFighter = fighters.stack;
+    document.querySelectorAll(".fighter-choice").forEach((choice) => {
+      choice.addEventListener("click", () => {
+        selectedFighter = fighters[choice.dataset.fighter];
+        document.querySelectorAll(".fighter-choice").forEach((fighterChoice) => {
+          fighterChoice.setAttribute("aria-pressed", String(fighterChoice === choice));
+        });
+        document.querySelector("#fighter-emoji").textContent = selectedFighter.emoji;
+        document.querySelector("#fighter-name").textContent = selectedFighter.name;
+        document.querySelector("#fighter-description").textContent = selectedFighter.description;
+        document.querySelector("#fighter-price").textContent = formatPrice(selectedFighter.price);
+        document.querySelector("#stat-power").style.setProperty("--stat", `${selectedFighter.power}%`);
+        document.querySelector("#stat-spice").style.setProperty("--stat", `${selectedFighter.spice}%`);
+        document.querySelector("#stat-cheese").style.setProperty("--stat", `${selectedFighter.cheese}%`);
+        document.querySelector(".fighter-preview .badge").hidden = !selectedFighter.champion;
+      });
+    });
+
+    fighterAddButton.addEventListener("click", () => {
+      addItemToOrder(selectedFighter.name, fighterAddButton);
+    });
+
+    function animateBuilderPrice() {
+      if (priceAnimation) cancelAnimationFrame(priceAnimation);
+      if (reducedMotion.matches) {
+        displayedBuilderTotal = builderTotal;
+        builderPriceLabel.textContent = formatPrice(builderTotal);
+        return;
+      }
+
+      const start = displayedBuilderTotal;
+      const end = builderTotal;
+      const began = performance.now();
+      function tick(now) {
+        const progress = Math.min((now - began) / 320, 1);
+        displayedBuilderTotal = Math.round(start + (end - start) * progress);
+        builderPriceLabel.textContent = formatPrice(displayedBuilderTotal);
+        if (progress < 1) priceAnimation = requestAnimationFrame(tick);
+      }
+      priceAnimation = requestAnimationFrame(tick);
+    }
+
+    document.querySelectorAll(".builder-ingredient").forEach((button) => {
+      button.addEventListener("click", () => {
+        const type = button.dataset.layer;
+        const pattyCount = builderLayers.filter((layer) => layer.type === "patty").length;
+        if (type === "patty" && pattyCount >= 3) return;
+
+        const layer = {
+          type,
+          label: button.dataset.label,
+          price: Number(button.dataset.price)
+        };
+        builderLayers.push(layer);
+        builderEmpty.hidden = true;
+        const layerElement = document.createElement("span");
+        layerElement.className = `burger-layer ${layer.type}`;
+        layerElement.textContent = layer.label;
+        builderStack.append(layerElement);
+
+        builderTotal += layer.price;
+        const updatedPattyCount = pattyCount + (type === "patty" ? 1 : 0);
+        pattyCountLabel.textContent = String(updatedPattyCount);
+        pattyCounter.classList.toggle("cracked", updatedPattyCount === 3);
+        const pattyButton = document.querySelector('.builder-ingredient[data-layer="patty"]');
+        pattyButton.disabled = updatedPattyCount === 3;
+        builderAddButton.disabled = false;
+        animateBuilderPrice();
+        formSuccess.hidden = true;
+      });
+    });
+
+    builderAddButton.addEventListener("click", () => {
+      if (builderLayers.length === 0) return;
+      itemPrices.set("Custom Pehelwan", builderTotal);
+      customRecipe = builderLayers.map((layer) => layer.label).join(", ");
+      addItemToOrder("Custom Pehelwan", builderAddButton);
     });
 
     itemSelect.addEventListener("change", () => {
@@ -1272,6 +1902,33 @@
       formSuccess.hidden = false;
       fireConfetti();
     });
+
+    let previousScrollY = window.scrollY;
+    const siteHeader = document.querySelector(".site-header");
+    window.addEventListener("scroll", () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < 60 || currentScrollY < previousScrollY) {
+        siteHeader.classList.remove("header-hidden");
+      } else if (currentScrollY > previousScrollY) {
+        siteHeader.classList.add("header-hidden");
+      }
+      previousScrollY = currentScrollY;
+    }, { passive: true });
+
+    let roundFlashTimeout;
+    const roundObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        roundFlashTitle.textContent = entry.target.dataset.round;
+        roundFlash.classList.remove("is-active");
+        void roundFlash.offsetWidth;
+        roundFlash.classList.add("is-active");
+        window.clearTimeout(roundFlashTimeout);
+        roundFlashTimeout = window.setTimeout(() => roundFlash.classList.remove("is-active"), 1400);
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll("[data-round]").forEach((section) => roundObserver.observe(section));
   </script>
 </body>
 </html>
