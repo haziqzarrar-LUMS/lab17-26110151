@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1A1A1A">
+  <title>BurgerKhan | Dil se Khan, pait se pehelwan.</title>
+  <meta name="description" content="Pehelwan-sized smash burgers, delivered across Lahore. Step into the BurgerKhan akhaara.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --red: #D62828;
+      --ink: #1A1A1A;
+      --cream: #FFF4E0;
+      --gold: #F4A300;
+      --display: "Bebas Neue", Impact, sans-serif;
+      --body: "Poppins", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--body);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .site-header {
+      position: relative;
+      z-index: 2;
+      padding: 1rem max(1.25rem, calc((100% - 1180px) / 2));
+      border-bottom: 4px solid var(--gold);
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      flex: 0 0 auto;
+      text-decoration: none;
+    }
+
+    .brand-name {
+      display: block;
+      font-family: var(--display);
+      font-size: 2.5rem;
+      letter-spacing: 0.045em;
+      line-height: 0.9;
+    }
+
+    .brand-tagline {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.4rem 1.25rem;
+    }
+
+    .site-nav a {
+      padding: 0.35rem 0;
+      font-weight: 700;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.25rem;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--gold);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 4px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 5px solid var(--ink);
+      background-color: var(--red);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Ccircle cx='2' cy='2' r='1' fill='%231A1A1A'/%3E%3C/svg%3E");
+      background-position: 0 0;
+      background-size: 12px 12px;
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      z-index: 0;
+      content: "";
+      pointer-events: none;
+    }
+
+    .hero::before {
+      inset: 0;
+      background: var(--red);
+      clip-path: polygon(0 0, 76% 0, 58% 100%, 0 100%);
+    }
+
+    .hero::after {
+      top: -9rem;
+      right: -9rem;
+      width: 30rem;
+      aspect-ratio: 1;
+      border: 5px solid var(--ink);
+      background: var(--gold);
+      clip-path: polygon(50% 0, 58% 34%, 86% 13%, 70% 43%, 100% 50%, 68% 58%, 87% 87%, 58% 68%, 50% 100%, 42% 68%, 13% 87%, 32% 58%, 0 50%, 32% 42%, 13% 13%, 42% 32%);
+      transform: rotate(12deg);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 1rem;
+      max-width: 1180px;
+      min-height: 600px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    .fight-poster {
+      position: relative;
+      z-index: 1;
+      padding: 1.5rem 1rem 1.5rem 0;
+    }
+
+    .fight-poster h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(5rem, 11.5vw, 10.5rem);
+      font-weight: 400;
+      letter-spacing: -0.035em;
+      line-height: 0.76;
+      text-transform: uppercase;
+    }
+
+    .fight-poster h1 > span:not(.versus) {
+      display: block;
+      width: fit-content;
+      padding: 0 0.18em 0.06em;
+      border: 4px solid var(--ink);
+      background: var(--cream);
+      box-shadow: 8px 8px 0 var(--ink);
+      transform: rotate(-3deg);
+    }
+
+    .fight-poster h1 > span:last-child {
+      margin-top: 0.16em;
+      background: var(--gold);
+      transform: rotate(2deg) translateX(0.35em);
+    }
+
+    .versus {
+      display: block;
+      width: fit-content;
+      margin: 0.35rem 0 0.4rem 0.5rem;
+      color: var(--cream);
+      font-family: var(--display);
+      font-size: clamp(2.6rem, 5vw, 4.5rem);
+      line-height: 0.8;
+      text-shadow: 3px 3px 0 var(--ink);
+      transform: rotate(-7deg);
+    }
+
+    .hero-copy {
+      max-width: 540px;
+      margin: 1.5rem 0 1.35rem;
+      font-size: clamp(1rem, 1.7vw, 1.18rem);
+      font-weight: 700;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.25rem;
+      padding: 0.7rem 1.2rem;
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      background: var(--gold);
+      box-shadow: 5px 5px 0 var(--ink);
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 1.55rem;
+      letter-spacing: 0.025em;
+      line-height: 1;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+    }
+
+    .button:hover {
+      background: var(--cream);
+      animation: wobble 360ms ease-in-out;
+    }
+
+    .button:active {
+      box-shadow: 1px 1px 0 var(--ink);
+      transform: translate(4px, 4px) scale(0.96);
+    }
+
+    .hero-art {
+      position: relative;
+      display: grid;
+      min-height: 400px;
+      place-items: center;
+    }
+
+    .hero-burger {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: min(74%, 360px);
+      aspect-ratio: 1;
+      place-items: center;
+      border: 5px solid var(--ink);
+      background: var(--gold);
+      box-shadow: 12px 12px 0 var(--ink);
+      font-size: clamp(9rem, 19vw, 15rem);
+      line-height: 1;
+      transform: rotate(6deg);
+    }
+
+    .fight-stamp {
+      position: absolute;
+      right: 0;
+      bottom: 1.3rem;
+      z-index: 2;
+      display: grid;
+      width: 8.7rem;
+      aspect-ratio: 1;
+      place-items: center;
+      border: 4px solid var(--ink);
+      background: var(--cream);
+      font-family: var(--display);
+      font-size: 1.8rem;
+      line-height: 0.9;
+      text-align: center;
+      transform: rotate(9deg);
+    }
+
+    .page-ready .hero {
+      animation: screen-shake 500ms 120ms both;
+    }
+
+    .page-ready .fight-poster h1 > span:not(.versus) {
+      animation: slam-in 600ms cubic-bezier(0.2, 1.5, 0.45, 1) both;
+    }
+
+    .page-ready .fight-poster h1 > span:last-child {
+      animation-delay: 180ms;
+    }
+
+    main section:not(.hero) {
+      padding: 5.5rem max(1.25rem, calc((100% - 1180px) / 2));
+    }
+
+    .section-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section-heading {
+      max-width: 900px;
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(3.8rem, 8vw, 7rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 0.85;
+      text-transform: uppercase;
+    }
+
+    .section-intro {
+      max-width: 650px;
+      margin: 1rem 0 2.5rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .menu-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-section::after {
+      position: absolute;
+      top: 4rem;
+      right: -5rem;
+      width: 16rem;
+      aspect-ratio: 1;
+      border: 4px solid var(--ink);
+      background: var(--gold);
+      clip-path: polygon(50% 0, 61% 36%, 98% 20%, 72% 50%, 98% 80%, 61% 64%, 50% 100%, 39% 64%, 2% 80%, 28% 50%, 2% 20%, 39% 36%);
+      transform: rotate(18deg);
+      pointer-events: none;
+    }
+
+    .menu-category {
+      position: relative;
+      z-index: 1;
+      margin-top: 3.5rem;
+    }
+
+    .category-heading {
+      display: inline-block;
+      margin: 0 0 1.6rem;
+      padding: 0 0.2em;
+      border: 3px solid var(--ink);
+      background: var(--red);
+      box-shadow: 5px 5px 0 var(--ink);
+      color: var(--cream);
+      font-family: var(--display);
+      font-size: 2.7rem;
+      font-weight: 400;
+      line-height: 1.05;
+      text-transform: uppercase;
+      transform: rotate(-2deg);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .menu-card {
+      position: relative;
+      display: flex;
+      min-height: 300px;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.25rem;
+      border: 4px solid var(--ink);
+      background: var(--cream);
+      box-shadow: 7px 7px 0 var(--ink);
+      transform: rotate(-1deg);
+    }
+
+    .menu-card:nth-child(2) {
+      background: var(--gold);
+      transform: rotate(1.4deg) translateY(0.6rem);
+    }
+
+    .menu-card:nth-child(3) {
+      background: var(--red);
+      color: var(--cream);
+      transform: rotate(-0.5deg) translateY(-0.2rem);
+    }
+
+    .menu-card.featured {
+      background: var(--gold);
+      transform: rotate(-1.5deg) translateY(0.2rem);
+    }
+
+    .menu-card:nth-child(3).featured {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .menu-card-emoji {
+      display: grid;
+      width: 4rem;
+      aspect-ratio: 1;
+      place-items: center;
+      margin-bottom: 0.85rem;
+      border: 3px solid var(--ink);
+      background: var(--cream);
+      font-size: 2.4rem;
+      transform: rotate(-6deg);
+    }
+
+    .menu-card h3 {
+      max-width: 100%;
+      margin: 0.2rem 0 0.4rem;
+      font-family: var(--display);
+      font-size: clamp(1.9rem, 3vw, 2.7rem);
+      font-weight: 400;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .menu-card p {
+      margin: 0.2rem 0 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .price {
+      margin-top: auto;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.65rem;
+      display: grid;
+      width: 5.8rem;
+      aspect-ratio: 1;
+      place-items: center;
+      border: 3px solid var(--ink);
+      background: var(--red);
+      color: var(--cream);
+      font-family: var(--display);
+      font-size: 1.35rem;
+      line-height: 0.9;
+      text-align: center;
+      clip-path: polygon(50% 0, 61% 14%, 79% 7%, 86% 25%, 100% 36%, 91% 54%, 98% 72%, 78% 79%, 68% 97%, 50% 88%, 32% 98%, 22% 80%, 3% 73%, 10% 54%, 0 37%, 15% 24%, 21% 7%, 39% 14%);
+      transform: rotate(8deg);
+    }
+
+    .add-button {
+      width: 100%;
+      margin-top: 1rem;
+      background: var(--red);
+      color: var(--cream);
+      font-size: 1.3rem;
+    }
+
+    .menu-card:nth-child(3) .add-button {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .story {
+      position: relative;
+      overflow: hidden;
+      border-top: 5px solid var(--ink);
+      border-bottom: 5px solid var(--ink);
+      background: var(--gold);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Ccircle cx='2' cy='2' r='1' fill='%231A1A1A'/%3E%3C/svg%3E");
+      background-size: 14px 14px;
+    }
+
+    .story-layout {
+      display: grid;
+      grid-template-columns: 1fr 0.75fr;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .story-copy {
+      position: relative;
+      z-index: 1;
+      padding: 1.5rem;
+      border: 4px solid var(--ink);
+      background: var(--cream);
+      box-shadow: 9px 9px 0 var(--ink);
+      transform: rotate(-1deg);
+    }
+
+    .story-copy p {
+      max-width: 650px;
+    }
+
+    .story-callout {
+      position: relative;
+      display: grid;
+      min-height: 310px;
+      place-items: center;
+      border: 5px solid var(--ink);
+      background: var(--red);
+      box-shadow: 9px 9px 0 var(--ink);
+      font-size: clamp(8rem, 18vw, 13rem);
+      transform: rotate(4deg);
+    }
+
+    .story-callout::after {
+      position: absolute;
+      right: 0.5rem;
+      bottom: 0.3rem;
+      content: "KHAN POWER!";
+      color: var(--cream);
+      font-family: var(--display);
+      font-size: 2rem;
+      transform: rotate(-5deg);
+    }
+
+    .hours {
+      display: inline-block;
+      margin: 0.5rem 0 0;
+      padding: 0.45rem 0.7rem;
+      border: 3px solid var(--ink);
+      background: var(--gold);
+      box-shadow: 4px 4px 0 var(--ink);
+      font-weight: 700;
+      transform: rotate(-1deg);
+    }
+
+    .order-section {
+      background: var(--cream);
+    }
+
+    .order-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: start;
+      gap: 3rem;
+    }
+
+    .order-note {
+      max-width: 380px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .order-bag {
+      max-width: 400px;
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 4px solid var(--ink);
+      background: var(--gold);
+      box-shadow: 6px 6px 0 var(--ink);
+      transform: rotate(-1deg);
+    }
+
+    .order-bag h3 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .order-bag ol {
+      margin: 0.65rem 0 0;
+      padding-left: 1.5rem;
+    }
+
+    .order-bag li {
+      margin: 0.35rem 0;
+      font-weight: 700;
+    }
+
+    .order-bag-empty {
+      margin: 0.65rem 0 0;
+    }
+
+    .order-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      padding: 1.4rem;
+      border: 4px solid var(--ink);
+      background: var(--red);
+      box-shadow: 9px 9px 0 var(--ink);
+      transform: rotate(0.6deg);
+    }
+
+    .field {
+      display: grid;
+      align-content: start;
+      gap: 0.4rem;
+    }
+
+    .field.full-width,
+    .phone-hint,
+    .form-error,
+    .form-success,
+    .order-form .button {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-weight: 800;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 3.1rem;
+      padding: 0.65rem 0.75rem;
+      border: 3px solid var(--ink);
+      border-radius: 0;
+      background: var(--cream);
+      color: var(--ink);
+    }
+
+    .field input:focus,
+    .field select:focus {
+      outline: 3px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .phone-hint {
+      margin: -0.55rem 0 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .form-error,
+    .form-success {
+      margin: 0;
+      padding: 0.6rem;
+      border: 3px solid var(--ink);
+      background: var(--cream);
+      font-weight: 800;
+    }
+
+    .form-error {
+      color: var(--red);
+    }
+
+    .form-success {
+      color: var(--ink);
+    }
+
+    .shake {
+      animation: wrong-field 380ms ease-in-out;
+    }
+
+    .site-footer {
+      padding: 2.5rem 1.25rem;
+      border-top: 5px solid var(--gold);
+      background: var(--ink);
+      color: var(--cream);
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .site-footer p {
+      margin: 0.35rem 0;
+    }
+
+    .footer-brand {
+      font-family: var(--display);
+      font-size: 2.4rem !important;
+      letter-spacing: 0.045em;
+      line-height: 1;
+    }
+
+    .dhishoom {
+      position: fixed;
+      z-index: 10;
+      color: var(--gold);
+      font-family: var(--display);
+      font-size: clamp(2rem, 7vw, 4rem);
+      line-height: 1;
+      pointer-events: none;
+      text-shadow: 3px 3px 0 var(--ink), -2px -2px 0 var(--ink), 2px -2px 0 var(--ink), -2px 2px 0 var(--ink);
+      animation: dhishoom 650ms ease-out forwards;
+    }
+
+    .confetti-piece {
+      position: fixed;
+      z-index: 10;
+      top: 45%;
+      left: 50%;
+      font-size: 1.8rem;
+      pointer-events: none;
+      animation: confetti-flight 1100ms ease-out forwards;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @keyframes screen-shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(3px); }
+    }
+
+    @keyframes slam-in {
+      from { opacity: 0; transform: translateY(-90px) scale(1.35) rotate(-8deg); }
+      to { opacity: 1; }
+    }
+
+    @keyframes wobble {
+      0%, 100% { transform: rotate(0); }
+      25% { transform: rotate(-3deg); }
+      65% { transform: rotate(3deg); }
+    }
+
+    @keyframes wrong-field {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      50% { transform: translateX(7px); }
+      75% { transform: translateX(-4px); }
+    }
+
+    @keyframes dhishoom {
+      0% { opacity: 0; transform: translate(-50%, 0) scale(0.3) rotate(-14deg); }
+      25% { opacity: 1; transform: translate(-50%, -1.2rem) scale(1.2) rotate(7deg); }
+      100% { opacity: 0; transform: translate(-50%, -4rem) scale(0.8) rotate(-5deg); }
+    }
+
+    @keyframes confetti-flight {
+      0% { opacity: 1; transform: translate(-50%, -50%) rotate(0) scale(0.7); }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--drift-x)), calc(-50% + var(--drift-y))) rotate(var(--spin)) scale(1.15); }
+    }
+
+    @media (max-width: 760px) {
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .site-nav {
+        justify-content: flex-start;
+        gap: 0.4rem 1rem;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 0;
+        min-height: auto;
+        padding: 3rem 1.25rem 2rem;
+      }
+
+      .fight-poster {
+        padding: 1.25rem 0 0;
+      }
+
+      .fight-poster h1 {
+        font-size: clamp(4.5rem, 17vw, 8rem);
+      }
+
+      .hero-art {
+        min-height: 300px;
+      }
+
+      .hero-burger {
+        width: min(66%, 290px);
+        font-size: clamp(9rem, 34vw, 13rem);
+      }
+
+      .fight-stamp {
+        right: 8%;
+        bottom: 0;
+      }
+
+      main section:not(.hero) {
+        padding: 4rem 1.25rem;
+      }
+
+      .menu-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+      }
+
+      .menu-card {
+        min-height: 320px;
+        padding: 1rem;
+      }
+
+      .menu-card h3 {
+        font-size: clamp(1.8rem, 5vw, 2.4rem);
+      }
+
+      .story-layout,
+      .order-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .story-callout {
+        min-height: 250px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .site-header {
+        padding: 1rem;
+      }
+
+      .brand-name {
+        font-size: 2.2rem;
+      }
+
+      .site-nav {
+        gap: 0.25rem 0.8rem;
+      }
+
+      .site-nav a {
+        font-size: 0.9rem;
+      }
+
+      .hero-inner {
+        padding: 2.5rem 1rem 1.5rem;
+      }
+
+      .fight-poster h1 {
+        font-size: clamp(4rem, 18vw, 5.7rem);
+      }
+
+      .fight-poster h1 > span:not(.versus) {
+        border-width: 3px;
+        box-shadow: 5px 5px 0 var(--ink);
+      }
+
+      .versus {
+        font-size: 2.6rem;
+      }
+
+      .hero-art {
+        min-height: 245px;
+      }
+
+      .hero-burger {
+        width: 66%;
+        border-width: 4px;
+        box-shadow: 8px 8px 0 var(--ink);
+        font-size: 9rem;
+      }
+
+      .fight-stamp {
+        right: 3%;
+        width: 6.7rem;
+        font-size: 1.4rem;
+      }
+
+      main section:not(.hero) {
+        padding: 3.5rem 1rem;
+      }
+
+      .section-heading {
+        font-size: clamp(3.3rem, 15vw, 4.4rem);
+      }
+
+      .menu-category {
+        margin-top: 2.7rem;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        padding: 0 0.3rem 0.5rem;
+      }
+
+      .menu-card,
+      .menu-card:nth-child(2),
+      .menu-card:nth-child(3),
+      .menu-card.featured {
+        min-height: 270px;
+        transform: none;
+      }
+
+      .menu-card:nth-child(2) {
+        transform: rotate(1deg);
+      }
+
+      .menu-card:nth-child(3) {
+        transform: rotate(-0.7deg);
+      }
+
+      .menu-card h3 {
+        font-size: 2.35rem;
+      }
+
+      .story-copy {
+        padding: 1rem;
+      }
+
+      .order-form {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+
+      .field.full-width,
+      .phone-hint,
+      .form-error,
+      .form-success,
+      .order-form .button {
+        grid-column: auto;
+      }
+
+      .site-footer p:last-child {
+        max-width: 320px;
+        margin: 0.5rem auto 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="home">
+    <div class="header-inner">
+      <a class="brand" href="#home" aria-label="BurgerKhan home">
+        <span class="brand-name">BURGERKHAN</span>
+        <span class="brand-tagline">Dil se Khan, pait se pehelwan.</span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#menu">Menu</a>
+        <a href="#story">Our story</a>
+        <a href="#order">Order</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="fight-poster">
+          <h1 id="hero-title"><span>Pehelwan<br>Stack</span><span class="versus">Versus</span><span>Your<br>Bhook</span></h1>
+          <p class="hero-copy">Triple smash. Double cheese. Khan sauce. Lahore, your hunger has picked a fight it cannot win.</p>
+          <a class="button" href="#menu">Meet the contenders</a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-burger">🍔</div>
+          <div class="fight-stamp">CHAMPION<br>ENERGY</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="menu-section" id="menu" aria-labelledby="menu-title">
+      <div class="section-inner">
+        <h2 class="section-heading" id="menu-title">Nine contenders.<br>Zero weak bites.</h2>
+        <p class="section-intro">Pick your fighter. Tap “Add to order”. Bas, the kitchen bell has been rung.</p>
+
+        <div class="menu-category">
+          <h3 class="category-heading">Burgers</h3>
+          <div class="menu-grid">
+            <article class="menu-card featured" data-item="Pehelwan Stack">
+              <span class="badge">Champion</span>
+              <span class="menu-card-emoji" aria-hidden="true">🍔</span>
+              <h3>Pehelwan Stack</h3>
+              <p>Triple smash patty, double cheese, Khan sauce, fries.</p>
+              <span class="price">Rs 1,099</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+            <article class="menu-card" data-item="Khan Classic">
+              <span class="menu-card-emoji" aria-hidden="true">🥊</span>
+              <h3>Khan Classic</h3>
+              <p>Double smash, sharp cheddar, house pickles.</p>
+              <span class="price">Rs 749</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+            <article class="menu-card" data-item="Mirchi Mania">
+              <span class="menu-card-emoji" aria-hidden="true">🌶️</span>
+              <h3>Mirchi Mania</h3>
+              <p>Smash patty, green chilli, spicy Khan sauce.</p>
+              <span class="price">Rs 799</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="category-heading">Sides</h3>
+          <div class="menu-grid">
+            <article class="menu-card" data-item="Akhaara Fries">
+              <span class="menu-card-emoji" aria-hidden="true">🍟</span>
+              <h3>Akhaara Fries</h3>
+              <p>Golden, crunchy fries with a little fight.</p>
+              <span class="price">Rs 299</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+            <article class="menu-card" data-item="Loaded Knockout">
+              <span class="menu-card-emoji" aria-hidden="true">🧀</span>
+              <h3>Loaded Knockout</h3>
+              <p>Fries piled high with cheese and Khan sauce.</p>
+              <span class="price">Rs 449</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+            <article class="menu-card" data-item="Onion Uppercut">
+              <span class="menu-card-emoji" aria-hidden="true">🧅</span>
+              <h3>Onion Uppercut</h3>
+              <p>Crunchy onion rings. One tasty takedown.</p>
+              <span class="price">Rs 349</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+          </div>
+        </div>
+
+        <div class="menu-category">
+          <h3 class="category-heading">Drinks</h3>
+          <div class="menu-grid">
+            <article class="menu-card" data-item="Cola Corner">
+              <span class="menu-card-emoji" aria-hidden="true">🥤</span>
+              <h3>Cola Corner</h3>
+              <p>Ice-cold fizz to tag in with your burger.</p>
+              <span class="price">Rs 199</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+            <article class="menu-card" data-item="Nimbu Slam">
+              <span class="menu-card-emoji" aria-hidden="true">🍋</span>
+              <h3>Nimbu Slam</h3>
+              <p>Fresh lemon, cool sip, full reset.</p>
+              <span class="price">Rs 249</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+            <article class="menu-card" data-item="Mango Muscle">
+              <span class="menu-card-emoji" aria-hidden="true">🥛</span>
+              <h3>Mango Muscle</h3>
+              <p>Thick mango shake with heavyweight energy.</p>
+              <span class="price">Rs 399</span>
+              <button class="button add-button" type="button">Add to order</button>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="story" id="story" aria-labelledby="story-title">
+      <div class="section-inner story-layout">
+        <div class="story-copy">
+          <h2 class="section-heading" id="story-title">The pehelwan story</h2>
+          <p>Every pehelwan knows: show up hungry, leave stronger. BurgerKhan brings that ring-side spirit to Lahore, one hot smash burger at a time.</p>
+          <p>Our signature Pehelwan Stack comes in swinging with triple smash patty, double cheese, Khan sauce and fries. No warm-up required. Bas, take a bite.</p>
+          <p class="hours">Open 6 pm to 3 am, every day</p>
+        </div>
+        <div class="story-callout" aria-hidden="true">💪</div>
+      </div>
+    </section>
+
+    <section class="order-section" id="order" aria-labelledby="order-title">
+      <div class="section-inner order-layout">
+        <div>
+          <h2 class="section-heading" id="order-title">Call your order</h2>
+          <p class="order-note">Tell us what you want. We’ll bring the dangal to your door.</p>
+          <p class="hours">Open 6 pm to 3 am, every day</p>
+          <div class="order-bag" aria-live="polite">
+            <h3>Your corner</h3>
+            <p class="order-bag-empty" id="bag-empty">Your order bag is empty. Choose a contender!</p>
+            <ol id="bag-items" hidden></ol>
+          </div>
+        </div>
+        <form class="order-form" id="order-form" novalidate>
+          <div class="field">
+            <label for="customer-name">Name</label>
+            <input id="customer-name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="customer-phone">Phone</label>
+            <input id="customer-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0300-1234567" aria-describedby="phone-hint phone-error" required>
+          </div>
+          <p class="phone-hint" id="phone-hint">11 digits, starting with 03. Example: 0300-1234567.</p>
+          <div class="field full-width">
+            <label for="order-item">Item</label>
+            <select id="order-item" name="item" required>
+              <option value="">Choose your contender</option>
+              <option>Pehelwan Stack</option>
+              <option>Khan Classic</option>
+              <option>Mirchi Mania</option>
+              <option>Akhaara Fries</option>
+              <option>Loaded Knockout</option>
+              <option>Onion Uppercut</option>
+              <option>Cola Corner</option>
+              <option>Nimbu Slam</option>
+              <option>Mango Muscle</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="quantity">Quantity</label>
+            <input id="quantity" name="quantity" type="number" min="1" step="1" value="1" required>
+          </div>
+          <p class="form-error" id="phone-error" role="alert" hidden>Please enter 11 digits starting with 03, like 0300-1234567. Check the number and try again.</p>
+          <p class="form-error" id="form-error" role="alert" hidden>Please enter your name, choose an item and set a whole-number quantity of at least 1.</p>
+          <p class="form-success" id="form-success" role="status" hidden>You’re in the ring! Your order details are ready.</p>
+          <button class="button" type="submit">Place your order</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand">BURGERKHAN</p>
+      <p>@burgerkhan.pk &nbsp;·&nbsp; Lahore</p>
+      <p>Akhaaray mein utro: DM @burgerkhan.pk aur abhi order karo.</p>
+    </div>
+  </footer>
+
+  <script>
+    const orderForm = document.querySelector("#order-form");
+    const phoneInput = document.querySelector("#customer-phone");
+    const nameInput = document.querySelector("#customer-name");
+    const itemSelect = document.querySelector("#order-item");
+    const quantityInput = document.querySelector("#quantity");
+    const phoneError = document.querySelector("#phone-error");
+    const formError = document.querySelector("#form-error");
+    const formSuccess = document.querySelector("#form-success");
+    const bagItems = document.querySelector("#bag-items");
+    const bagEmpty = document.querySelector("#bag-empty");
+    const orderItems = new Map();
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    requestAnimationFrame(() => document.body.classList.add("page-ready"));
+
+    function isValidPhone(value) {
+      return /^03\d{2}-?\d{7}$/.test(value);
+    }
+
+    function showDhishoom(button) {
+      if (reducedMotion.matches) return;
+      const bounds = button.getBoundingClientRect();
+      const burst = document.createElement("span");
+      burst.className = "dhishoom";
+      burst.textContent = "DHISHOOM!";
+      burst.setAttribute("aria-hidden", "true");
+      burst.style.left = `${bounds.left + bounds.width / 2}px`;
+      burst.style.top = `${bounds.top}px`;
+      document.body.append(burst);
+      window.setTimeout(() => burst.remove(), 700);
+    }
+
+    function renderBag() {
+      bagItems.replaceChildren();
+      bagEmpty.hidden = orderItems.size > 0;
+      bagItems.hidden = orderItems.size === 0;
+
+      for (const [item, quantity] of orderItems) {
+        const line = document.createElement("li");
+        line.textContent = `${item} × ${quantity}`;
+        bagItems.append(line);
+      }
+    }
+
+    function setOrderItem(item, quantity) {
+      orderItems.set(item, quantity);
+      itemSelect.value = item;
+      quantityInput.value = String(quantity);
+      renderBag();
+      formSuccess.hidden = true;
+    }
+
+    document.querySelectorAll(".menu-card").forEach((card) => {
+      const button = card.querySelector(".add-button");
+      button.addEventListener("click", () => {
+        const item = card.dataset.item;
+        const quantity = (orderItems.get(item) || 0) + 1;
+        setOrderItem(item, quantity);
+        showDhishoom(button);
+      });
+    });
+
+    itemSelect.addEventListener("change", () => {
+      quantityInput.value = String(orderItems.get(itemSelect.value) || 1);
+      formSuccess.hidden = true;
+    });
+
+    quantityInput.addEventListener("change", () => {
+      const item = itemSelect.value;
+      const quantity = Number(quantityInput.value);
+      if (item && Number.isInteger(quantity) && quantity > 0) {
+        orderItems.set(item, quantity);
+        renderBag();
+      }
+      formSuccess.hidden = true;
+    });
+
+    phoneInput.addEventListener("blur", () => {
+      const digits = phoneInput.value.replace(/\D/g, "");
+      if (digits.length === 11 && digits.startsWith("03")) {
+        phoneInput.value = `${digits.slice(0, 4)}-${digits.slice(4)}`;
+      }
+    });
+
+    function shakeField(field) {
+      field.classList.remove("shake");
+      void field.offsetWidth;
+      field.classList.add("shake");
+      field.addEventListener("animationend", () => field.classList.remove("shake"), { once: true });
+      field.focus();
+    }
+
+    function fireConfetti() {
+      if (reducedMotion.matches) return;
+      for (let index = 0; index < 24; index += 1) {
+        const piece = document.createElement("span");
+        const angle = (Math.PI * 2 * index) / 24;
+        const distance = 90 + (index % 4) * 28;
+        piece.className = "confetti-piece";
+        piece.textContent = "🍔";
+        piece.setAttribute("aria-hidden", "true");
+        piece.style.setProperty("--drift-x", `${Math.cos(angle) * distance}px`);
+        piece.style.setProperty("--drift-y", `${Math.sin(angle) * distance - 70}px`);
+        piece.style.setProperty("--spin", `${(index % 2 ? 1 : -1) * (120 + index * 12)}deg`);
+        document.body.append(piece);
+        window.setTimeout(() => piece.remove(), 1150);
+      }
+    }
+
+    orderForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      phoneError.hidden = true;
+      formError.hidden = true;
+      formSuccess.hidden = true;
+
+      if (!isValidPhone(phoneInput.value)) {
+        phoneError.hidden = false;
+        shakeField(phoneInput);
+        return;
+      }
+
+      const quantity = Number(quantityInput.value);
+      if (!nameInput.value.trim()) {
+        formError.hidden = false;
+        shakeField(nameInput);
+        return;
+      }
+      if (!itemSelect.value) {
+        formError.hidden = false;
+        shakeField(itemSelect);
+        return;
+      }
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        formError.hidden = false;
+        shakeField(quantityInput);
+        return;
+      }
+
+      orderItems.set(itemSelect.value, quantity);
+      renderBag();
+      formSuccess.hidden = false;
+      fireConfetti();
+    });
+  </script>
+</body>
+</html>
