@@ -17,3 +17,4 @@ description: Use this skill whenever you build or change any page of the BurgerK
 12. Never use stock photos or outside images: use emoji, CSS shapes and SVG.
 13. The background is never static: behind the hero, poster sunburst rays rotate slowly; across the page, halftone dots drift diagonally and faint burger, chilli and 💪 emoji float upward at different speeds.
 14. The site is "BurgerKhan Fight Night": sections are rounds of a live dangal, introduced with a round card and a bell.
+15. Section titles pair an akhara word with its Urdu script (e.g. "Akhara · اکھاڑا"), using the "Noto Nastaliq Urdu" font from Google Fonts for the Urdu.
