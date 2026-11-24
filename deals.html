@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1A1A1A">
+  <title>Fight Night Deals | BurgerKhan</title>
+  <meta name="description" content="BurgerKhan Fight Night Deals: Yaari Box, Raat ka Dangal after midnight, and the Hostel Survival Pack. Smash burgers delivered across Lahore.">
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var query = location.search;
+      var hour = new Date().getHours();
+      if (/[?&]night\b/.test(query) || (!/[?&]day\b/.test(query) && (hour >= 23 || hour < 5))) root.classList.add("night");
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Nastaliq+Urdu:wght@700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+  <script src="site.js" defer></script>
+  <script src="deals.js" defer></script>
+</head>
+<body>
+  <div class="bg-stage" id="bg-stage" aria-hidden="true"><div class="bg-dots"></div></div>
+  <div class="night-spots" aria-hidden="true">
+    <span class="cone" style="--x: 15%; --t: 11s"></span>
+    <span class="cone" style="--x: 55%; --t: 8s; --d: -3s"></span>
+    <span class="cone" style="--x: 90%; --t: 13s; --d: -6s"></span>
+  </div>
+
+  <div class="round-flash" id="round-flash" aria-hidden="true">
+    <svg class="round-flash-bell" viewBox="0 0 48 48"><path d="M11 33h26l-4-5V18a9 9 0 0 0-18 0v10l-4 5Zm9 5a4 4 0 0 0 8 0"/></svg>
+    <span id="round-flash-title">BONUS ROUND</span>
+    <span class="round-flash-sub" id="round-flash-sub"></span>
+  </div>
+
+  <div class="bhook-meter" id="bhook-meter" role="progressbar" aria-label="Bhook meter: how far down the deals you are" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <span class="bhook-label" aria-hidden="true">Bhook meter</span>
+    <span class="bhook-track" aria-hidden="true"><span class="bhook-fill" id="bhook-fill"></span><span class="bhook-ticks"></span></span>
+    <span class="bhook-pct" id="bhook-pct" aria-hidden="true">0%</span>
+  </div>
+
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="BurgerKhan home">
+        <span class="brand-name">BURGERKHAN</span>
+        <span class="brand-tagline">Dil se Khan, pait se pehelwan.</span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Fight Night</a>
+        <a href="index.html#menu">Round 1</a>
+        <a href="index.html#builder">Round 2</a>
+        <a href="index.html#story">Round 3</a>
+        <a href="index.html#delivery">Delivery</a>
+        <a href="index.html#order">Final round</a>
+        <a href="deals.html" aria-current="page">Deals</a>
+      </nav>
+      <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false"><span aria-hidden="true">🔕</span> <span class="sound-text">Turn sound on</span></button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero deals-hero" data-fx aria-labelledby="deals-title">
+      <svg class="sunburst" viewBox="-100 -100 200 200" aria-hidden="true">
+        <g>
+          <polygon points="0,0 -9,-100 9,-100"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(22.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(45)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(67.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(90)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(112.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(135)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(157.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(180)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(202.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(225)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(247.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(270)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(292.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(315)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(337.5)"/>
+        </g>
+      </svg>
+      <div class="hero-inner">
+        <div class="fight-poster">
+          <p class="night-banner">Raat ka dangal shuru!</p>
+          <h1 id="deals-title"><span class="h-line">Fight Night</span><span class="h-line second">Deals</span></h1>
+          <p class="hero-copy panel">Bigger bhook, better daao. Combos for you and your yaar, for late-night pehelwans and for hostel warriors running on empty.</p>
+          <div class="hero-actions">
+            <a class="button" href="#deals">See the deals</a>
+            <a class="button button-cream" href="index.html#order">Go to Your Corner (<span data-corner-count>0</span>)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="deals" data-round="BONUS ROUND" data-round-sub="Daao: Fight Night Deals" aria-labelledby="daao-title">
+      <div class="section-inner">
+        <div class="round-head">
+          <h2 class="section-heading" id="daao-title"><span class="sh-word">Daao</span><span class="sh-dot" aria-hidden="true">·</span><span class="sh-urdu" lang="ur" dir="rtl">داؤ</span></h2>
+          <p class="round-tag">Bonus round: Three deals, zero mercy</p>
+          <p class="section-intro">Every deal goes straight into Your Corner. Finish the order in the final round on the Fight Night page.</p>
+        </div>
+
+        <div class="deals-grid">
+          <article class="deal deal-yaari panel" aria-labelledby="deal-yaari">
+            <p class="deal-emoji" aria-hidden="true">🍔🍔🍟🍟🥤🥤</p>
+            <h3 id="deal-yaari">Yaari Box</h3>
+            <p class="deal-line">Two of everything. Because yaari means sharing (most of it).</p>
+            <ul class="deal-includes">
+              <li>2 Khan Classic</li>
+              <li>2 Akhaara Fries</li>
+              <li>2 Cola Corner</li>
+            </ul>
+            <p class="deal-price">Rs 2,199</p>
+            <p class="deal-compare">Rs 2,494 if you order them one by one.</p>
+            <button class="button button-red" type="button" data-add-item="Yaari Box">Add to order</button>
+          </article>
+
+          <article class="deal deal-raat panel" aria-labelledby="deal-raat">
+            <p class="starburst red deal-stamp">After midnight</p>
+            <p class="deal-emoji" aria-hidden="true">🌙🍔🥛</p>
+            <h3 id="deal-raat">Raat ka Dangal</h3>
+            <p class="deal-line">The champion and his shake, for the 12 am bhook attack.</p>
+            <ul class="deal-includes">
+              <li>1 Pehelwan Stack</li>
+              <li>1 Mango Muscle</li>
+            </ul>
+            <p class="deal-price">Rs 1,299</p>
+            <p class="deal-compare">Rs 1,498 if you order them one by one.</p>
+            <p class="deal-time">Available 12 am to 3 am only</p>
+            <p class="deal-status" id="raat-status" aria-live="polite"></p>
+            <button class="button" type="button" id="raat-button" data-add-item="Raat ka Dangal">Add to order</button>
+          </article>
+
+          <article class="deal deal-hostel panel" aria-labelledby="deal-hostel">
+            <p class="deal-emoji" aria-hidden="true">🥊🥊🥊🥊🍟🍟🥤🥤🥤🥤</p>
+            <h3 id="deal-hostel">Hostel Survival Pack</h3>
+            <p class="deal-line">Exam week? Mess band? Four pehelwans fed, one bill.</p>
+            <ul class="deal-includes">
+              <li>4 Khan Classic</li>
+              <li>2 Akhaara Fries</li>
+              <li>4 Cola Corner</li>
+            </ul>
+            <p class="deal-price">Rs 3,799</p>
+            <p class="deal-compare">Rs 4,390 if you order them one by one.</p>
+            <button class="button" type="button" data-add-item="Hostel Survival Pack">Add to order</button>
+          </article>
+        </div>
+
+        <div class="deals-cta panel">
+          <p>Deal locked in? Time for the final round.</p>
+          <a class="button button-red" href="index.html#order">Go to Your Corner (<span data-corner-count>0</span>)</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a class="button button-red corner-fab" id="corner-fab" href="index.html#order">Your Corner (<span data-corner-count>0</span>)</a>
+  <p class="sr-only" id="announcer" aria-live="polite"></p>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-brand">BURGERKHAN</p>
+      <p class="brand-tagline">Dil se Khan, pait se pehelwan.</p>
+      <p>@burgerkhan.pk &nbsp;·&nbsp; Lahore</p>
+      <p class="footer-cta">Akhaaray mein utro: DM @burgerkhan.pk aur abhi order karo.</p>
+    </div>
+  </footer>
+</body>
+</html>

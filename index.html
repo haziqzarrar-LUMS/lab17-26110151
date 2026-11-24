@@ -2,1933 +2,520 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1A1A1A">
   <title>BurgerKhan Fight Night | Dil se Khan, pait se pehelwan.</title>
-  <meta name="description" content="Pehelwan-sized smash burgers, delivered across Lahore. Step into the BurgerKhan akhaara.">
+  <meta name="description" content="Pehelwan-sized smash burgers, delivered across Lahore. Step into the BurgerKhan akhaara for Fight Night.">
+  <script>
+    /* Runs before first paint: night arena after 11 pm, and the intro once per visit. */
+    (function () {
+      var root = document.documentElement;
+      var query = location.search;
+      var hour = new Date().getHours();
+      if (/[?&]night\b/.test(query) || (!/[?&]day\b/.test(query) && (hour >= 23 || hour < 5))) root.classList.add("night");
+      try {
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !sessionStorage.getItem("bk-intro-seen") && !/[?&]nointro\b/.test(query)) {
+          root.classList.add("play-intro");
+        }
+      } catch (error) { /* storage blocked: skip the intro */ }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      color-scheme: light;
-      --red: #D62828;
-      --ink: #1A1A1A;
-      --cream: #FFF4E0;
-      --gold: #F4A300;
-      --display: "Bebas Neue", Impact, sans-serif;
-      --body: "Poppins", sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      overflow-x: hidden;
-      background: var(--cream);
-      color: var(--ink);
-      font-family: var(--body);
-      line-height: 1.55;
-    }
-
-    body::before {
-      position: fixed;
-      z-index: 0;
-      inset: -30px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='3' cy='3' r='1.5' fill='%231A1A1A'/%3E%3C/svg%3E");
-      background-size: 16px 16px;
-      content: "";
-      opacity: 0.1;
-      pointer-events: none;
-      animation: dots-drift 14s linear infinite;
-    }
-
-    main,
-    .site-footer {
-      position: relative;
-      z-index: 1;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      padding: 1rem max(1.25rem, calc((100% - 1180px) / 2));
-      border-bottom: 4px solid var(--gold);
-      background: var(--ink);
-      color: var(--cream);
-      transition: transform 180ms ease;
-    }
-
-    .site-header.header-hidden {
-      transform: translateY(-110%);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-
-    .brand {
-      flex: 0 0 auto;
-      text-decoration: none;
-    }
-
-    .brand-name {
-      display: block;
-      font-family: var(--display);
-      font-size: 2.5rem;
-      letter-spacing: 0.045em;
-      line-height: 0.9;
-    }
-
-    .brand-tagline {
-      display: block;
-      margin-top: 0.35rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-    }
-
-    .site-nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 0.4rem 1.25rem;
-    }
-
-    .site-nav a {
-      padding: 0.35rem 0;
-      font-weight: 700;
-      text-decoration-thickness: 2px;
-      text-underline-offset: 0.25rem;
-    }
-
-    .site-nav a:hover,
-    .site-nav a:focus-visible {
-      color: var(--gold);
-    }
-
-    a:focus-visible,
-    button:focus-visible,
-    input:focus-visible,
-    select:focus-visible {
-      outline: 3px solid var(--gold);
-      outline-offset: 4px;
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      border-bottom: 5px solid var(--ink);
-      background-color: var(--red);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Ccircle cx='2' cy='2' r='1' fill='%231A1A1A'/%3E%3C/svg%3E");
-      background-position: 0 0;
-      background-size: 12px 12px;
-    }
-
-    .hero::before,
-    .hero::after {
-      position: absolute;
-      z-index: 0;
-      content: "";
-      pointer-events: none;
-    }
-
-    .hero::before {
-      inset: 0;
-      background: var(--red);
-      clip-path: polygon(0 0, 76% 0, 58% 100%, 0 100%);
-    }
-
-    .hero::after {
-      top: -9rem;
-      right: -9rem;
-      width: 30rem;
-      aspect-ratio: 1;
-      border: 5px solid var(--ink);
-      background: var(--gold);
-      clip-path: polygon(50% 0, 58% 34%, 86% 13%, 70% 43%, 100% 50%, 68% 58%, 87% 87%, 58% 68%, 50% 100%, 42% 68%, 13% 87%, 32% 58%, 0 50%, 32% 42%, 13% 13%, 42% 32%);
-      transform: rotate(12deg);
-      animation: sunburst-turn 34s linear infinite;
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      align-items: center;
-      gap: 1rem;
-      max-width: 1180px;
-      min-height: 600px;
-      margin: 0 auto;
-      padding: 4rem 1.5rem;
-    }
-
-    .fight-poster {
-      position: relative;
-      z-index: 1;
-      padding: 1.5rem 1rem 1.5rem 0;
-    }
-
-    .fight-poster h1 {
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(5rem, 11.5vw, 10.5rem);
-      font-weight: 400;
-      letter-spacing: -0.035em;
-      line-height: 0.76;
-      text-transform: uppercase;
-    }
-
-    .fight-poster h1 > span:not(.versus) {
-      display: block;
-      width: fit-content;
-      padding: 0 0.18em 0.06em;
-      border: 4px solid var(--ink);
-      background: var(--cream);
-      box-shadow: 8px 8px 0 var(--ink);
-      transform: rotate(-3deg);
-    }
-
-    .fight-poster h1 > span:last-child {
-      margin-top: 0.16em;
-      background: var(--gold);
-      transform: rotate(2deg) translateX(0.35em);
-    }
-
-    .versus {
-      display: block;
-      width: fit-content;
-      margin: 0.35rem 0 0.4rem 0.5rem;
-      color: var(--cream);
-      font-family: var(--display);
-      font-size: clamp(2.6rem, 5vw, 4.5rem);
-      line-height: 0.8;
-      text-shadow: 3px 3px 0 var(--ink);
-      transform: rotate(-7deg);
-    }
-
-    .hero-copy {
-      max-width: 540px;
-      margin: 1.5rem 0 1.35rem;
-      font-size: clamp(1rem, 1.7vw, 1.18rem);
-      font-weight: 700;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 3.25rem;
-      padding: 0.7rem 1.2rem;
-      border: 3px solid var(--ink);
-      border-radius: 0;
-      background: var(--gold);
-      box-shadow: 5px 5px 0 var(--ink);
-      color: var(--ink);
-      font-family: var(--display);
-      font-size: 1.55rem;
-      letter-spacing: 0.025em;
-      line-height: 1;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
-    }
-
-    .button:hover {
-      background: var(--cream);
-      animation: wobble 360ms ease-in-out;
-    }
-
-    .button:active {
-      box-shadow: 1px 1px 0 var(--ink);
-      transform: translate(4px, 4px) scale(0.96);
-    }
-
-    .hero-art {
-      position: relative;
-      display: grid;
-      min-height: 400px;
-      place-items: center;
-    }
-
-    .hero-burger {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      width: min(74%, 360px);
-      aspect-ratio: 1;
-      place-items: center;
-      border: 5px solid var(--ink);
-      background: var(--gold);
-      box-shadow: 12px 12px 0 var(--ink);
-      font-size: clamp(9rem, 19vw, 15rem);
-      line-height: 1;
-      transform: rotate(6deg);
-    }
-
-    .fight-stamp {
-      position: absolute;
-      right: 0;
-      bottom: 1.3rem;
-      z-index: 2;
-      display: grid;
-      width: 8.7rem;
-      aspect-ratio: 1;
-      place-items: center;
-      border: 4px solid var(--ink);
-      background: var(--cream);
-      font-family: var(--display);
-      font-size: 1.8rem;
-      line-height: 0.9;
-      text-align: center;
-      transform: rotate(9deg);
-    }
-
-    .page-ready .hero {
-      animation: screen-shake 500ms 120ms both;
-    }
-
-    .page-ready .fight-poster h1 > span:not(.versus) {
-      animation: slam-in 600ms cubic-bezier(0.2, 1.5, 0.45, 1) both;
-    }
-
-    .page-ready .fight-poster h1 > span:last-child {
-      animation-delay: 180ms;
-    }
-
-    main section:not(.hero) {
-      padding: 5.5rem max(1.25rem, calc((100% - 1180px) / 2));
-    }
-
-    .section-inner {
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-
-    .section-heading {
-      max-width: 900px;
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(3.8rem, 8vw, 7rem);
-      font-weight: 400;
-      letter-spacing: -0.02em;
-      line-height: 0.85;
-      text-transform: uppercase;
-    }
-
-    .section-intro {
-      max-width: 650px;
-      margin: 1rem 0 2.5rem;
-      font-size: 1.05rem;
-      font-weight: 600;
-    }
-
-    .menu-section {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .menu-section::after {
-      position: absolute;
-      top: 4rem;
-      right: -5rem;
-      width: 16rem;
-      aspect-ratio: 1;
-      border: 4px solid var(--ink);
-      background: var(--gold);
-      clip-path: polygon(50% 0, 61% 36%, 98% 20%, 72% 50%, 98% 80%, 61% 64%, 50% 100%, 39% 64%, 2% 80%, 28% 50%, 2% 20%, 39% 36%);
-      transform: rotate(18deg);
-      pointer-events: none;
-    }
-
-    .menu-category {
-      position: relative;
-      z-index: 1;
-      margin-top: 3.5rem;
-    }
-
-    .category-heading {
-      display: inline-block;
-      margin: 0 0 1.6rem;
-      padding: 0 0.2em;
-      border: 3px solid var(--ink);
-      background: var(--red);
-      box-shadow: 5px 5px 0 var(--ink);
-      color: var(--cream);
-      font-family: var(--display);
-      font-size: 2.7rem;
-      font-weight: 400;
-      line-height: 1.05;
-      text-transform: uppercase;
-      transform: rotate(-2deg);
-    }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.5rem;
-    }
-
-    .menu-card {
-      position: relative;
-      display: flex;
-      min-height: 300px;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 1.25rem;
-      border: 4px solid var(--ink);
-      background: var(--cream);
-      box-shadow: 7px 7px 0 var(--ink);
-      transform: rotate(-1deg);
-    }
-
-    .menu-card:nth-child(2) {
-      background: var(--gold);
-      transform: rotate(1.4deg) translateY(0.6rem);
-    }
-
-    .menu-card:nth-child(3) {
-      background: var(--red);
-      color: var(--cream);
-      transform: rotate(-0.5deg) translateY(-0.2rem);
-    }
-
-    .menu-card.featured {
-      background: var(--gold);
-      transform: rotate(-1.5deg) translateY(0.2rem);
-    }
-
-    .menu-card:nth-child(3).featured {
-      background: var(--gold);
-      color: var(--ink);
-    }
-
-    .menu-card-emoji {
-      display: grid;
-      width: 4rem;
-      aspect-ratio: 1;
-      place-items: center;
-      margin-bottom: 0.85rem;
-      border: 3px solid var(--ink);
-      background: var(--cream);
-      font-size: 2.4rem;
-      transform: rotate(-6deg);
-    }
-
-    .menu-card h3 {
-      max-width: 100%;
-      margin: 0.2rem 0 0.4rem;
-      font-family: var(--display);
-      font-size: clamp(1.9rem, 3vw, 2.7rem);
-      font-weight: 400;
-      line-height: 0.95;
-      text-transform: uppercase;
-    }
-
-    .menu-card p {
-      margin: 0.2rem 0 1rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .price {
-      margin-top: auto;
-      font-size: 1.05rem;
-      font-weight: 800;
-    }
-
-    .badge {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.65rem;
-      display: grid;
-      width: 5.8rem;
-      aspect-ratio: 1;
-      place-items: center;
-      border: 3px solid var(--ink);
-      background: var(--red);
-      color: var(--cream);
-      font-family: var(--display);
-      font-size: 1.35rem;
-      line-height: 0.9;
-      text-align: center;
-      clip-path: polygon(50% 0, 61% 14%, 79% 7%, 86% 25%, 100% 36%, 91% 54%, 98% 72%, 78% 79%, 68% 97%, 50% 88%, 32% 98%, 22% 80%, 3% 73%, 10% 54%, 0 37%, 15% 24%, 21% 7%, 39% 14%);
-      transform: rotate(8deg);
-    }
-
-    .add-button {
-      width: 100%;
-      margin-top: 1rem;
-      background: var(--red);
-      color: var(--cream);
-      font-size: 1.3rem;
-    }
-
-    .menu-card:nth-child(3) .add-button {
-      background: var(--gold);
-      color: var(--ink);
-    }
-
-    .story {
-      position: relative;
-      overflow: hidden;
-      border-top: 5px solid var(--ink);
-      border-bottom: 5px solid var(--ink);
-      background: var(--gold);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Ccircle cx='2' cy='2' r='1' fill='%231A1A1A'/%3E%3C/svg%3E");
-      background-size: 14px 14px;
-    }
-
-    .story-layout {
-      display: grid;
-      grid-template-columns: 1fr 0.75fr;
-      align-items: center;
-      gap: 3rem;
-    }
-
-    .story-copy {
-      position: relative;
-      z-index: 1;
-      padding: 1.5rem;
-      border: 4px solid var(--ink);
-      background: var(--cream);
-      box-shadow: 9px 9px 0 var(--ink);
-      transform: rotate(-1deg);
-    }
-
-    .story-copy p {
-      max-width: 650px;
-    }
-
-    .story-callout {
-      position: relative;
-      display: grid;
-      min-height: 310px;
-      place-items: center;
-      border: 5px solid var(--ink);
-      background: var(--red);
-      box-shadow: 9px 9px 0 var(--ink);
-      font-size: clamp(8rem, 18vw, 13rem);
-      transform: rotate(4deg);
-    }
-
-    .story-callout::after {
-      position: absolute;
-      right: 0.5rem;
-      bottom: 0.3rem;
-      content: "KHAN POWER!";
-      color: var(--cream);
-      font-family: var(--display);
-      font-size: 2rem;
-      transform: rotate(-5deg);
-    }
-
-    .hours {
-      display: inline-block;
-      margin: 0.5rem 0 0;
-      padding: 0.45rem 0.7rem;
-      border: 3px solid var(--ink);
-      background: var(--gold);
-      box-shadow: 4px 4px 0 var(--ink);
-      font-weight: 700;
-      transform: rotate(-1deg);
-    }
-
-    .order-section {
-      background: var(--cream);
-    }
-
-    .order-layout {
-      display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
-      align-items: start;
-      gap: 3rem;
-    }
-
-    .order-note {
-      max-width: 380px;
-      font-size: 1.05rem;
-      font-weight: 600;
-    }
-
-    .order-bag {
-      max-width: 400px;
-      margin-top: 2rem;
-      padding: 1rem;
-      border: 4px solid var(--ink);
-      background: var(--gold);
-      box-shadow: 6px 6px 0 var(--ink);
-      transform: rotate(-1deg);
-    }
-
-    .order-bag h3 {
-      margin: 0;
-      font-family: var(--display);
-      font-size: 2rem;
-      font-weight: 400;
-      line-height: 1;
-      text-transform: uppercase;
-    }
-
-    .order-bag ol {
-      margin: 0.65rem 0 0;
-      padding-left: 1.5rem;
-    }
-
-    .order-bag li {
-      margin: 0.35rem 0;
-      font-weight: 700;
-    }
-
-    .order-bag-empty {
-      margin: 0.65rem 0 0;
-    }
-
-    .order-form {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      padding: 1.4rem;
-      border: 4px solid var(--ink);
-      background: var(--red);
-      box-shadow: 9px 9px 0 var(--ink);
-      transform: rotate(0.6deg);
-    }
-
-    .field {
-      display: grid;
-      align-content: start;
-      gap: 0.4rem;
-    }
-
-    .field.full-width,
-    .phone-hint,
-    .form-error,
-    .form-success,
-    .order-form .button {
-      grid-column: 1 / -1;
-    }
-
-    .field label {
-      font-weight: 800;
-    }
-
-    .field input,
-    .field select {
-      width: 100%;
-      min-height: 3.1rem;
-      padding: 0.65rem 0.75rem;
-      border: 3px solid var(--ink);
-      border-radius: 0;
-      background: var(--cream);
-      color: var(--ink);
-    }
-
-    .field input:focus,
-    .field select:focus {
-      outline: 3px solid var(--gold);
-      outline-offset: 2px;
-    }
-
-    .phone-hint {
-      margin: -0.55rem 0 0;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .form-error,
-    .form-success {
-      margin: 0;
-      padding: 0.6rem;
-      border: 3px solid var(--ink);
-      background: var(--cream);
-      font-weight: 800;
-    }
-
-    .form-error {
-      color: var(--red);
-    }
-
-    .form-success {
-      color: var(--ink);
-    }
-
-    .shake {
-      animation: wrong-field 380ms ease-in-out;
-    }
-
-    .site-footer {
-      padding: 2.5rem 1.25rem;
-      border-top: 5px solid var(--gold);
-      background: var(--ink);
-      color: var(--cream);
-      text-align: center;
-    }
-
-    .footer-inner {
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-
-    .site-footer p {
-      margin: 0.35rem 0;
-    }
-
-    .footer-brand {
-      font-family: var(--display);
-      font-size: 2.4rem !important;
-      letter-spacing: 0.045em;
-      line-height: 1;
-    }
-
-    .dhishoom {
-      position: fixed;
-      z-index: 10;
-      color: var(--gold);
-      font-family: var(--display);
-      font-size: clamp(2rem, 7vw, 4rem);
-      line-height: 1;
-      pointer-events: none;
-      text-shadow: 3px 3px 0 var(--ink), -2px -2px 0 var(--ink), 2px -2px 0 var(--ink), -2px 2px 0 var(--ink);
-      animation: dhishoom 650ms ease-out forwards;
-    }
-
-    .confetti-piece {
-      position: fixed;
-      z-index: 10;
-      top: 45%;
-      left: 50%;
-      font-size: 1.8rem;
-      pointer-events: none;
-      animation: confetti-flight 1100ms ease-out forwards;
-    }
-
-    [hidden] {
-      display: none !important;
-    }
-
-    @keyframes screen-shake {
-      0%, 100% { transform: translateX(0); }
-      20% { transform: translateX(-8px); }
-      40% { transform: translateX(7px); }
-      60% { transform: translateX(-5px); }
-      80% { transform: translateX(3px); }
-    }
-
-    @keyframes slam-in {
-      from { opacity: 0; transform: translateY(-90px) scale(1.35) rotate(-8deg); }
-      to { opacity: 1; }
-    }
-
-    @keyframes wobble {
-      0%, 100% { transform: rotate(0); }
-      25% { transform: rotate(-3deg); }
-      65% { transform: rotate(3deg); }
-    }
-
-    @keyframes wrong-field {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-8px); }
-      50% { transform: translateX(7px); }
-      75% { transform: translateX(-4px); }
-    }
-
-    @keyframes dhishoom {
-      0% { opacity: 0; transform: translate(-50%, 0) scale(0.3) rotate(-14deg); }
-      25% { opacity: 1; transform: translate(-50%, -1.2rem) scale(1.2) rotate(7deg); }
-      100% { opacity: 0; transform: translate(-50%, -4rem) scale(0.8) rotate(-5deg); }
-    }
-
-    @keyframes confetti-flight {
-      0% { opacity: 1; transform: translate(-50%, -50%) rotate(0) scale(0.7); }
-      100% { opacity: 0; transform: translate(calc(-50% + var(--drift-x)), calc(-50% + var(--drift-y))) rotate(var(--spin)) scale(1.15); }
-    }
-
-    @media (max-width: 760px) {
-      .header-inner {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 0.8rem;
-      }
-
-      .site-nav {
-        justify-content: flex-start;
-        gap: 0.4rem 1rem;
-      }
-
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 0;
-        min-height: auto;
-        padding: 3rem 1.25rem 2rem;
-      }
-
-      .fight-poster {
-        padding: 1.25rem 0 0;
-      }
-
-      .fight-poster h1 {
-        font-size: clamp(4.5rem, 17vw, 8rem);
-      }
-
-      .hero-art {
-        min-height: 300px;
-      }
-
-      .hero-burger {
-        width: min(66%, 290px);
-        font-size: clamp(9rem, 34vw, 13rem);
-      }
-
-      .fight-stamp {
-        right: 8%;
-        bottom: 0;
-      }
-
-      main section:not(.hero) {
-        padding: 4rem 1.25rem;
-      }
-
-      .menu-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.25rem;
-      }
-
-      .menu-card {
-        min-height: 320px;
-        padding: 1rem;
-      }
-
-      .menu-card h3 {
-        font-size: clamp(1.8rem, 5vw, 2.4rem);
-      }
-
-      .story-layout,
-      .order-layout {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .story-callout {
-        min-height: 250px;
-      }
-    }
-
-    @media (max-width: 430px) {
-      .site-header {
-        padding: 1rem;
-      }
-
-      .brand-name {
-        font-size: 2.2rem;
-      }
-
-      .site-nav {
-        gap: 0.25rem 0.8rem;
-      }
-
-      .site-nav a {
-        font-size: 0.9rem;
-      }
-
-      .hero-inner {
-        padding: 2.5rem 1rem 1.5rem;
-      }
-
-      .fight-poster h1 {
-        font-size: clamp(4rem, 18vw, 5.7rem);
-      }
-
-      .fight-poster h1 > span:not(.versus) {
-        border-width: 3px;
-        box-shadow: 5px 5px 0 var(--ink);
-      }
-
-      .versus {
-        font-size: 2.6rem;
-      }
-
-      .hero-art {
-        min-height: 245px;
-      }
-
-      .hero-burger {
-        width: 66%;
-        border-width: 4px;
-        box-shadow: 8px 8px 0 var(--ink);
-        font-size: 9rem;
-      }
-
-      .fight-stamp {
-        right: 3%;
-        width: 6.7rem;
-        font-size: 1.4rem;
-      }
-
-      main section:not(.hero) {
-        padding: 3.5rem 1rem;
-      }
-
-      .section-heading {
-        font-size: clamp(3.3rem, 15vw, 4.4rem);
-      }
-
-      .menu-category {
-        margin-top: 2.7rem;
-      }
-
-      .menu-grid {
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-        padding: 0 0.3rem 0.5rem;
-      }
-
-      .menu-card,
-      .menu-card:nth-child(2),
-      .menu-card:nth-child(3),
-      .menu-card.featured {
-        min-height: 270px;
-        transform: none;
-      }
-
-      .menu-card:nth-child(2) {
-        transform: rotate(1deg);
-      }
-
-      .menu-card:nth-child(3) {
-        transform: rotate(-0.7deg);
-      }
-
-      .menu-card h3 {
-        font-size: 2.35rem;
-      }
-
-      .story-copy {
-        padding: 1rem;
-      }
-
-      .order-form {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-      }
-
-      .field.full-width,
-      .phone-hint,
-      .form-error,
-      .form-success,
-      .order-form .button {
-        grid-column: auto;
-      }
-
-      .site-footer p:last-child {
-        max-width: 320px;
-        margin: 0.5rem auto 0;
-      }
-    }
-
-    .atmosphere {
-      position: fixed;
-      z-index: 0;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .floaty {
-      position: absolute;
-      bottom: -4rem;
-      font-size: clamp(1.5rem, 3vw, 2.8rem);
-      opacity: 0.18;
-      animation: float-up var(--float-time, 16s) linear infinite;
-      animation-delay: var(--float-delay, 0s);
-    }
-
-    .floaty:nth-child(1) { left: 8%; --float-time: 19s; }
-    .floaty:nth-child(2) { left: 31%; --float-time: 15s; --float-delay: -7s; }
-    .floaty:nth-child(3) { left: 55%; --float-time: 21s; --float-delay: -12s; }
-    .floaty:nth-child(4) { left: 78%; --float-time: 17s; --float-delay: -4s; }
-    .floaty:nth-child(5) { left: 92%; --float-time: 23s; --float-delay: -16s; }
-
-    .round-flash {
-      position: fixed;
-      z-index: 20;
-      top: 50%;
-      left: 50%;
-      display: grid;
-      min-width: min(18rem, calc(100vw - 2rem));
-      place-items: center;
-      padding: 1rem 2rem;
-      border: 5px solid var(--ink);
-      background: var(--gold);
-      box-shadow: 9px 9px 0 var(--ink);
-      font-family: var(--display);
-      font-size: clamp(3.2rem, 12vw, 6rem);
-      line-height: 0.9;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transform: translate(-50%, -50%) scale(0.5) rotate(-8deg);
-    }
-
-    .round-flash.is-active {
-      animation: round-card 1350ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
-    }
-
-    .round-flash-bell {
-      display: block;
-      width: 2.6rem;
-      height: 2.6rem;
-      margin: 0 auto 0.25rem;
-      transform-origin: 50% 10%;
-    }
-
-    .round-flash.is-active .round-flash-bell {
-      animation: bell-ring 450ms 80ms ease-in-out 2;
-    }
-
-    .round-flash-bell path {
-      fill: var(--red);
-      stroke: var(--ink);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-width: 3;
-    }
-
-    .roster-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-      align-items: center;
-      gap: 2rem;
-    }
-
-    .roster {
-      display: flex;
-      gap: 0.9rem;
-      overflow-x: auto;
-      padding: 0.9rem 0.75rem 1.3rem;
-      scroll-snap-type: x mandatory;
-      scrollbar-color: var(--red) var(--cream);
-    }
-
-    .fighter-choice {
-      flex: 0 0 10.5rem;
-      min-height: 12rem;
-      padding: 0.8rem;
-      border: 4px solid var(--ink);
-      background: var(--cream);
-      box-shadow: 5px 5px 0 var(--ink);
-      font-family: var(--display);
-      font-size: 1.5rem;
-      line-height: 0.95;
-      text-align: left;
-      cursor: pointer;
-      scroll-snap-align: start;
-      transform: rotate(-2deg);
-    }
-
-    .fighter-choice:nth-child(even) {
-      background: var(--gold);
-      transform: rotate(2deg) translateY(0.4rem);
-    }
-
-    .fighter-choice[aria-pressed="true"] {
-      background: var(--red);
-      color: var(--cream);
-      transform: rotate(-1deg) translateY(-0.2rem);
-    }
-
-    .fighter-choice-emoji {
-      display: block;
-      margin-bottom: 0.75rem;
-      font-family: var(--body);
-      font-size: 3.8rem;
-      line-height: 1;
-    }
-
-    .fighter-preview {
-      position: relative;
-      display: grid;
-      grid-template-columns: minmax(8rem, 0.7fr) 1.3fr;
-      align-items: center;
-      gap: 1.4rem;
-      padding: 1.4rem;
-      border: 5px solid var(--ink);
-      background: var(--gold);
-      box-shadow: 9px 9px 0 var(--ink);
-      transform: rotate(1deg);
-    }
-
-    .fighter-preview-emoji {
-      display: grid;
-      min-height: 13rem;
-      place-items: center;
-      border: 4px solid var(--ink);
-      background: var(--cream);
-      font-size: clamp(6rem, 13vw, 10rem);
-      line-height: 1;
-    }
-
-    .fighter-preview h3 {
-      margin: 0;
-      font-family: var(--display);
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      font-weight: 400;
-      line-height: 0.9;
-      text-transform: uppercase;
-    }
-
-    .fighter-preview p {
-      margin: 0.65rem 0;
-      font-weight: 600;
-    }
-
-    .fighter-price {
-      display: block;
-      margin: 0.7rem 0;
-      font-size: 1.2rem;
-      font-weight: 800;
-    }
-
-    .stat {
-      display: grid;
-      grid-template-columns: 5.3rem 1fr;
-      align-items: center;
-      gap: 0.5rem;
-      margin: 0.45rem 0;
-      font-size: 0.82rem;
-      font-weight: 800;
-    }
-
-    .stat-track {
-      height: 0.85rem;
-      border: 2px solid var(--ink);
-      background: var(--cream);
-    }
-
-    .stat-fill {
-      display: block;
-      width: var(--stat);
-      height: 100%;
-      background: var(--red);
-    }
-
-    .fighter-preview .button {
-      width: 100%;
-      margin-top: 0.5rem;
-    }
-
-    .corner-menu {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.65rem 1rem;
-      margin-top: 2rem;
-      padding: 1rem;
-      border: 4px solid var(--ink);
-      background: var(--cream);
-      box-shadow: 6px 6px 0 var(--ink);
-    }
-
-    .corner-menu h3 {
-      grid-column: 1 / -1;
-      margin: 0;
-      font-family: var(--display);
-      font-size: 2.2rem;
-      font-weight: 400;
-    }
-
-    .corner-menu-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.6rem;
-      padding: 0.55rem 0;
-      border-bottom: 2px dashed var(--ink);
-    }
-
-    .corner-menu-item span {
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
-
-    .corner-menu-item .button {
-      min-height: 2.5rem;
-      padding: 0.45rem 0.65rem;
-      font-size: 1.1rem;
-      white-space: nowrap;
-    }
-
-    .builder-section {
-      border-top: 5px solid var(--ink);
-      border-bottom: 5px solid var(--ink);
-      background: var(--red);
-    }
-
-    .builder-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 3rem;
-    }
-
-    .builder-panel {
-      padding: 1.4rem;
-      border: 5px solid var(--ink);
-      background: var(--cream);
-      box-shadow: 9px 9px 0 var(--ink);
-      transform: rotate(-1deg);
-    }
-
-    .builder-stack {
-      display: flex;
-      min-height: 16rem;
-      flex-direction: column-reverse;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 1.4rem 1rem 0.5rem;
-      border: 4px solid var(--ink);
-      border-bottom-width: 8px;
-      background: var(--gold);
-      overflow: hidden;
-    }
-
-    .builder-empty {
-      align-self: center;
-      margin: auto;
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .burger-layer {
-      position: relative;
-      display: grid;
-      width: min(100%, 17rem);
-      min-height: 1.3rem;
-      place-items: center;
-      border: 3px solid var(--ink);
-      font-size: 0.72rem;
-      font-weight: 800;
-      line-height: 1.1;
-      text-align: center;
-      animation: layer-drop 420ms cubic-bezier(0.2, 1.5, 0.45, 1) both;
-    }
-
-    .burger-layer.bun {
-      min-height: 2.2rem;
-      border-radius: 2rem 2rem 0.5rem 0.5rem;
-      background: var(--gold);
-    }
-
-    .burger-layer.patty {
-      min-height: 1.45rem;
-      background: var(--ink);
-      color: var(--cream);
-    }
-
-    .burger-layer.cheese {
-      min-height: 0.85rem;
-      background: var(--gold);
-    }
-
-    .burger-layer.chilli {
-      min-height: 0.9rem;
-      background: var(--red);
-      color: var(--cream);
-    }
-
-    .burger-layer.sauce {
-      min-height: 0.75rem;
-      background: var(--red);
-    }
-
-    .patty-counter {
-      position: relative;
-      margin: 1rem auto 0;
-      width: fit-content;
-      padding: 0.35rem 0.8rem;
-      border: 3px solid var(--ink);
-      background: var(--gold);
-      font-family: var(--display);
-      font-size: 1.5rem;
-      transform: rotate(-2deg);
-    }
-
-    .patty-counter.cracked::after {
-      position: absolute;
-      inset: -4px;
-      background: var(--red);
-      clip-path: polygon(47% 0, 55% 0, 51% 39%, 68% 48%, 54% 57%, 59% 100%, 47% 100%, 50% 62%, 34% 53%, 47% 43%);
-      content: "";
-      pointer-events: none;
-    }
-
-    .builder-controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.7rem;
-      margin-top: 1rem;
-    }
-
-    .builder-controls .button {
-      width: 100%;
-      padding: 0.7rem 0.45rem;
-      font-size: 1.25rem;
-    }
-
-    .builder-controls .button:disabled {
-      background: var(--cream);
-      cursor: not-allowed;
-      opacity: 0.72;
-    }
-
-    .builder-price {
-      margin: 1rem 0 0;
-      font-family: var(--display);
-      font-size: 2.6rem;
-      line-height: 1;
-      text-align: center;
-    }
-
-    .builder-add {
-      width: 100%;
-      margin-top: 0.8rem;
-    }
-
-    .round-story {
-      border-top: 5px solid var(--ink);
-      border-bottom: 5px solid var(--ink);
-      background-color: var(--gold);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Ccircle cx='2' cy='2' r='1' fill='%231A1A1A'/%3E%3C/svg%3E");
-      background-size: 14px 14px;
-    }
-
-    .round-heading {
-      display: inline-block;
-      margin: 0 0 1.4rem;
-      padding: 0.1em 0.2em;
-      border: 4px solid var(--ink);
-      background: var(--cream);
-      box-shadow: 6px 6px 0 var(--ink);
-      font-family: var(--display);
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      line-height: 1;
-      transform: rotate(-2deg);
-    }
-
-    .order-section {
-      border-top: 5px solid var(--ink);
-    }
-
-    @keyframes dots-drift {
-      to { background-position: 96px 96px; }
-    }
-
-    @keyframes sunburst-turn {
-      to { rotate: 372deg; }
-    }
-
-    @keyframes float-up {
-      from { transform: translateY(0) rotate(-10deg); }
-      to { transform: translateY(-115vh) rotate(25deg); }
-    }
-
-    @keyframes round-card {
-      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.45) rotate(-8deg); }
-      18%, 72% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(2deg); }
-      100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8) rotate(-3deg); }
-    }
-
-    @keyframes bell-ring {
-      0%, 100% { rotate: 0deg; }
-      20%, 60% { rotate: 18deg; }
-      40%, 80% { rotate: -18deg; }
-    }
-
-    @keyframes layer-drop {
-      0% { opacity: 0; transform: translateY(-3rem) scale(1.08, 0.7); }
-      65% { opacity: 1; transform: translateY(0.2rem) scale(0.92, 1.12); }
-      100% { transform: translateY(0) scale(1); }
-    }
-
-    @media (max-width: 760px) {
-      .roster-layout,
-      .builder-layout {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .fighter-preview {
-        grid-template-columns: minmax(7rem, 0.65fr) 1.35fr;
-      }
-    }
-
-    @media (max-width: 430px) {
-      .fighter-preview {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-      }
-
-      .fighter-preview-emoji {
-        min-height: 10rem;
-        font-size: 7rem;
-      }
-
-      .corner-menu {
-        grid-template-columns: 1fr;
-      }
-
-      .corner-menu h3 {
-        grid-column: auto;
-      }
-
-      .builder-panel {
-        padding: 0.85rem;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      .round-flash.is-active {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-        animation: none !important;
-      }
-
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Nastaliq+Urdu:wght@700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+  <script src="site.js" defer></script>
+  <script src="home.js" defer></script>
 </head>
 <body>
-  <div class="atmosphere" aria-hidden="true">
-    <span class="floaty">🍔</span>
-    <span class="floaty">🌶️</span>
-    <span class="floaty">💪</span>
-    <span class="floaty">🍔</span>
-    <span class="floaty">🌶️</span>
+  <!-- ================= ENTRANCE ================= -->
+  <div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Fight Night intro">
+    <div class="intro-stage" id="intro-stage">
+      <span class="intro-spot" style="--x: 18%; --from: -20deg; --d: 0s" aria-hidden="true"></span>
+      <span class="intro-spot" style="--x: 50%; --from: 10deg; --d: -1.2s" aria-hidden="true"></span>
+      <span class="intro-spot" style="--x: 82%; --from: 22deg; --d: -0.6s" aria-hidden="true"></span>
+      <span class="intro-ring" aria-hidden="true"></span>
+      <span class="intro-rope" aria-hidden="true"></span>
+      <span class="intro-rope" aria-hidden="true"></span>
+      <span class="intro-rope" aria-hidden="true"></span>
+      <p class="intro-announcer" aria-hidden="true"><span class="line-1" id="intro-line-1"></span><span class="line-2" id="intro-line-2"></span></p>
+      <p class="sr-only">Ladies and gentlemen… Lahore ki bhook ke khilaf… Pehelwan Stack versus Your Bhook!</p>
+      <div class="intro-fight" aria-hidden="true">
+        <span class="intro-name left" id="intro-left">Pehelwan Stack</span>
+        <span class="intro-vs" id="intro-vs">Vs</span>
+        <span class="intro-name right" id="intro-right">Your Bhook</span>
+      </div>
+      <div class="intro-flash" id="intro-flash" aria-hidden="true">
+        <svg viewBox="0 0 48 48"><path d="M11 33h26l-4-5V18a9 9 0 0 0-18 0v10l-4 5Zm9 5a4 4 0 0 0 8 0"/></svg>
+      </div>
+    </div>
+    <button class="button intro-skip" type="button" id="intro-skip">Skip intro</button>
   </div>
-  <div class="round-flash" id="round-flash" aria-live="polite" aria-atomic="true">
-    <svg class="round-flash-bell" viewBox="0 0 48 48" aria-hidden="true">
-      <path d="M11 33h26l-4-5V18a9 9 0 0 0-18 0v10l-4 5Zm9 5a4 4 0 0 0 8 0" />
-    </svg>
-    <span id="round-flash-title"></span>
+
+  <!-- ================= LIVING BACKGROUND ================= -->
+  <div class="bg-stage" id="bg-stage" aria-hidden="true"><div class="bg-dots"></div></div>
+  <div class="night-spots" aria-hidden="true">
+    <span class="cone" style="--x: 15%; --t: 11s"></span>
+    <span class="cone" style="--x: 55%; --t: 8s; --d: -3s"></span>
+    <span class="cone" style="--x: 90%; --t: 13s; --d: -6s"></span>
   </div>
-  <header class="site-header" id="home">
+
+  <!-- ================= ROUND CARD ================= -->
+  <div class="round-flash" id="round-flash" aria-hidden="true">
+    <svg class="round-flash-bell" viewBox="0 0 48 48"><path d="M11 33h26l-4-5V18a9 9 0 0 0-18 0v10l-4 5Zm9 5a4 4 0 0 0 8 0"/></svg>
+    <span id="round-flash-title">ROUND 1</span>
+    <span class="round-flash-sub" id="round-flash-sub"></span>
+  </div>
+
+  <!-- ================= BHOOK METER + HEADER ================= -->
+  <div class="bhook-meter" id="bhook-meter" role="progressbar" aria-label="Bhook meter: how far through Fight Night you are" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <span class="bhook-label" aria-hidden="true">Bhook meter</span>
+    <span class="bhook-track" aria-hidden="true"><span class="bhook-fill" id="bhook-fill"></span><span class="bhook-ticks"></span></span>
+    <span class="bhook-pct" id="bhook-pct" aria-hidden="true">0%</span>
+  </div>
+
+  <header class="site-header" id="site-header">
     <div class="header-inner">
-      <a class="brand" href="#home" aria-label="BurgerKhan home">
+      <a class="brand" href="index.html" aria-label="BurgerKhan home">
         <span class="brand-name">BURGERKHAN</span>
         <span class="brand-tagline">Dil se Khan, pait se pehelwan.</span>
       </a>
       <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html" aria-current="page">Fight Night</a>
         <a href="#menu">Round 1</a>
         <a href="#builder">Round 2</a>
         <a href="#story">Round 3</a>
+        <a href="#delivery">Delivery</a>
         <a href="#order">Final round</a>
+        <a href="deals.html">Deals</a>
       </nav>
+      <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false"><span aria-hidden="true">🔕</span> <span class="sound-text">Turn sound on</span></button>
     </div>
   </header>
 
-  <main>
-    <section class="hero" data-round="ENTRANCE" aria-labelledby="hero-title">
+  <main id="main" tabindex="-1">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="top" data-fx aria-labelledby="hero-title">
+      <svg class="sunburst" viewBox="-100 -100 200 200" aria-hidden="true">
+        <g>
+          <polygon points="0,0 -9,-100 9,-100"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(22.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(45)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(67.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(90)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(112.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(135)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(157.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(180)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(202.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(225)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(247.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(270)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(292.5)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(315)"/>
+          <polygon points="0,0 -9,-100 9,-100" transform="rotate(337.5)"/>
+        </g>
+      </svg>
       <div class="hero-inner">
         <div class="fight-poster">
-          <h1 id="hero-title"><span>Pehelwan<br>Stack</span><span class="versus">Vs</span><span>Your<br>Bhook</span></h1>
-          <p class="hero-copy">Welcome to BurgerKhan Fight Night! Triple smash, double cheese, Khan sauce. Lahore, your hunger has picked a fight it cannot win.</p>
-          <a class="button" href="#menu">Choose your fighter</a>
+          <p class="night-banner">Raat ka dangal shuru!</p>
+          <h1 id="hero-title" aria-label="Pehelwan Stack vs Your Bhook">
+            <span class="h-line first" aria-hidden="true"><span class="h-word">Pehelwan</span><span class="h-word">Stack</span></span>
+            <span class="versus" aria-hidden="true">Vs</span>
+            <span class="h-line second" aria-hidden="true"><span class="h-word">Your</span><span class="h-word">Bhook</span></span>
+          </h1>
+          <p class="hero-copy panel">Welcome to BurgerKhan Fight Night! Triple smash, double cheese, Khan sauce. Lahore, your hunger has picked a fight it cannot win.</p>
+          <div class="hero-actions">
+            <a class="button" href="#menu">Choose your fighter</a>
+            <a class="button button-cream" href="#builder">Build your own</a>
+          </div>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="hero-burger">🍔</div>
-          <div class="fight-stamp">CHAMPION<br>ENERGY</div>
+
+        <div class="hero-art">
+          <canvas class="steam" id="steam" aria-hidden="true"></canvas>
+          <button class="mega-burger" id="mega-burger" type="button" aria-expanded="false" aria-label="Pehelwan Stack: bun, Khan sauce, double cheese, triple smash patty. Press to pull it apart.">
+            <span class="layer l-bun-top" style="--o: -3.4; --r: -5deg">
+              <svg viewBox="0 0 200 90" aria-hidden="true">
+                <path d="M8 84C8 30 48 6 100 6s92 24 92 78Z" fill="#F4A300" stroke="#1A1A1A" stroke-width="5" stroke-linejoin="round"/>
+                <path d="M40 36c14-14 34-20 56-21" fill="none" stroke="#FFF4E0" stroke-width="7" stroke-linecap="round"/>
+                <g fill="#FFF4E0" stroke="#1A1A1A" stroke-width="2">
+                  <ellipse cx="72" cy="42" rx="7" ry="3.4" transform="rotate(-18 72 42)"/>
+                  <ellipse cx="104" cy="30" rx="7" ry="3.4" transform="rotate(8 104 30)"/>
+                  <ellipse cx="136" cy="44" rx="7" ry="3.4" transform="rotate(24 136 44)"/>
+                  <ellipse cx="88" cy="62" rx="7" ry="3.4" transform="rotate(-6 88 62)"/>
+                  <ellipse cx="122" cy="64" rx="7" ry="3.4" transform="rotate(14 122 64)"/>
+                  <ellipse cx="158" cy="62" rx="7" ry="3.4" transform="rotate(30 158 62)"/>
+                  <ellipse cx="52" cy="64" rx="7" ry="3.4" transform="rotate(-28 52 64)"/>
+                </g>
+              </svg>
+              <span class="layer-tag left" style="--tr: -4deg" aria-hidden="true">Bun</span>
+            </span>
+            <span class="layer l-sauce" style="--o: -2.4; --r: 3deg">
+              <svg viewBox="0 0 200 24" aria-hidden="true"><path d="M4 4h192v6c-6 0-8 10-15 10s-7-10-15-10h-36c-6 0-6 12-14 12s-8-12-14-12H64c-6 0-6 9-13 9s-7-9-13-9H4Z" fill="#D62828" stroke="#1A1A1A" stroke-width="4" stroke-linejoin="round"/></svg>
+              <span class="layer-tag right" style="--tr: 3deg" aria-hidden="true">Khan sauce</span>
+            </span>
+            <span class="layer l-cheese" style="--o: -1.4; --r: -2deg">
+              <svg viewBox="0 0 200 28" aria-hidden="true"><path d="M2 3h196l-12 10-10 13-8-13h-50l-10 11-10-11H52l-10 14-10-14H14Z" fill="#F4A300" stroke="#1A1A1A" stroke-width="4" stroke-linejoin="round"/></svg>
+              <span class="layer-tag left" style="--tr: -2deg" aria-hidden="true">Double cheese</span>
+            </span>
+            <span class="layer l-patty" style="--o: -0.4; --r: 2deg">
+              <svg viewBox="0 0 200 40" aria-hidden="true"><rect x="3" y="3" width="194" height="34" rx="17" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="4"/><path d="M30 14l14 6M70 12l16 8M116 14l14 6M156 12l14 7" stroke="#FFF4E0" stroke-width="4" stroke-linecap="round"/><g fill="#FFF4E0"><circle cx="52" cy="28" r="2"/><circle cx="98" cy="26" r="2"/><circle cx="142" cy="28" r="2"/></g></svg>
+              <span class="layer-tag right" style="--tr: 4deg" aria-hidden="true">Triple smash patty</span>
+            </span>
+            <span class="layer l-cheese" style="--o: 0.6; --r: -3deg">
+              <svg viewBox="0 0 200 28" aria-hidden="true"><path d="M2 3h196l-14 12-8 11-10-12h-46l-12 12-8-12H60l-8 13-12-13H14Z" fill="#F4A300" stroke="#1A1A1A" stroke-width="4" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="layer l-patty" style="--o: 1.6; --r: 3deg">
+              <svg viewBox="0 0 200 40" aria-hidden="true"><rect x="3" y="3" width="194" height="34" rx="17" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="4"/><path d="M40 14l16 7M92 12l14 7M136 15l16 6" stroke="#FFF4E0" stroke-width="4" stroke-linecap="round"/></svg>
+            </span>
+            <span class="layer l-patty" style="--o: 2.6; --r: -2deg">
+              <svg viewBox="0 0 200 40" aria-hidden="true"><rect x="3" y="3" width="194" height="34" rx="17" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="4"/><path d="M28 15l14 6M78 13l16 7M128 14l14 6M164 13l12 6" stroke="#FFF4E0" stroke-width="4" stroke-linecap="round"/></svg>
+            </span>
+            <span class="layer l-bun-bottom" style="--o: 3.6; --r: 4deg">
+              <svg viewBox="0 0 200 40" aria-hidden="true"><path d="M6 4h188c0 20-14 32-34 32H40C20 36 6 24 6 4Z" fill="#F4A300" stroke="#1A1A1A" stroke-width="5" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <p class="belt-badge champ-stamp" aria-hidden="true"><span>Champion<small>Rs 1,099</small></span></p>
+          <p class="burger-hint" id="burger-hint" aria-hidden="true">Tap the burger</p>
         </div>
       </div>
     </section>
 
-    <section class="menu-section" id="menu" data-round="ROUND 1" aria-labelledby="menu-title">
+    <!-- ================= ROUND 1: AKHARA ================= -->
+    <section class="section menu-section" id="menu" data-fx data-round="ROUND 1" data-round-sub="Akhara: choose your fighter" aria-labelledby="menu-title">
       <div class="section-inner">
-        <h2 class="section-heading" id="menu-title">Round 1: Choose your fighter</h2>
-        <p class="section-intro">The roster is ready. Pick a contender to see their stats, then send them to Your Corner.</p>
-        <div class="roster-layout">
-          <div class="roster" role="group" aria-label="Burger fighter roster">
-            <button class="fighter-choice" type="button" data-fighter="stack" aria-pressed="true">
-              <span class="fighter-choice-emoji" aria-hidden="true">🍔</span>Pehelwan Stack
-            </button>
-            <button class="fighter-choice" type="button" data-fighter="classic" aria-pressed="false">
-              <span class="fighter-choice-emoji" aria-hidden="true">🥊</span>Khan Classic
-            </button>
-            <button class="fighter-choice" type="button" data-fighter="mirchi" aria-pressed="false">
-              <span class="fighter-choice-emoji" aria-hidden="true">🌶️</span>Mirchi Mania
-            </button>
+        <div class="round-head">
+          <h2 class="section-heading" id="menu-title"><span class="sh-word">Akhara</span><span class="sh-dot" aria-hidden="true">·</span><span class="sh-urdu" lang="ur" dir="rtl">اکھاڑا</span></h2>
+          <p class="round-tag">Round 1: Choose your fighter</p>
+          <p class="section-intro">Tell us your bhook and the roster lights up. Pick a contender, check their stats, then send them to Your Corner.</p>
+        </div>
+
+        <form class="picker panel" id="picker" aria-labelledby="picker-title">
+          <h3 class="picker-title" id="picker-title">Kitni bhook hai?</h3>
+          <fieldset>
+            <legend>Hunger level</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="hunger" value="snack"><span>Snack</span></label>
+              <label class="chip"><input type="radio" name="hunger" value="proper"><span>Proper</span></label>
+              <label class="chip"><input type="radio" name="hunger" value="full"><span>Full pehelwan</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Budget per person</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="budget" value="499"><span>Under Rs 500</span></label>
+              <label class="chip"><input type="radio" name="budget" value="1000"><span>Rs 500–1,000</span></label>
+              <label class="chip"><input type="radio" name="budget" value="any"><span>No limit</span></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Eating with</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="crew" value="solo"><span>Just me</span></label>
+              <label class="chip"><input type="radio" name="crew" value="yaar"><span>Yaar</span></label>
+              <label class="chip"><input type="radio" name="crew" value="squad"><span>Whole squad</span></label>
+            </div>
+          </fieldset>
+          <div class="picker-result">
+            <p class="match-count" id="match-count" aria-live="polite"><strong id="match-n">9</strong> <span id="match-text">contenders ready. Pick your bhook!</span></p>
+            <p class="match-hint" id="match-hint">Sharing with a yaar or the squad? Sides made for sharing count too.</p>
+            <button class="button button-cream picker-clear" type="reset">Clear picks</button>
           </div>
-          <article class="fighter-preview" aria-live="polite">
-            <span class="badge">Champion</span>
-            <div class="fighter-preview-emoji" id="fighter-emoji" aria-hidden="true">🍔</div>
-            <div>
-              <h3 id="fighter-name">Pehelwan Stack</h3>
-              <p id="fighter-description">Triple smash patty, double cheese, Khan sauce, fries.</p>
-              <span class="fighter-price" id="fighter-price">Rs 1,099</span>
-              <div class="stat"><span>Power</span><span class="stat-track"><span class="stat-fill" id="stat-power" style="--stat: 100%"></span></span></div>
-              <div class="stat"><span>Spice</span><span class="stat-track"><span class="stat-fill" id="stat-spice" style="--stat: 48%"></span></span></div>
-              <div class="stat"><span>Cheese pull</span><span class="stat-track"><span class="stat-fill" id="stat-cheese" style="--stat: 92%"></span></span></div>
-              <button class="button" id="fighter-add" type="button">Add to order</button>
+        </form>
+
+        <div class="select-screen">
+          <article class="fighter-preview panel" id="fighter-preview" aria-labelledby="fp-name">
+            <div class="fp-art">
+              <span class="fp-emoji" id="fp-emoji" aria-hidden="true">🍔</span>
+            </div>
+            <p class="belt-badge fp-badge" id="fp-badge"><span>Champion</span></p>
+            <div class="fp-info">
+              <h3 class="fp-name" id="fp-name">Pehelwan Stack</h3>
+              <p class="fp-type" id="fp-type">Burger</p>
+              <p class="fp-desc" id="fp-desc">Triple smash patty, double cheese, Khan sauce, fries.</p>
+              <p class="fp-price" id="fp-price">Rs 1,099</p>
+              <div class="stat"><span>Weight</span><span class="stat-track" aria-hidden="true"><span class="stat-fill" id="stat-weight" style="--v: 1"></span></span><span class="stat-num" id="num-weight">100</span></div>
+              <div class="stat"><span>Spice</span><span class="stat-track" aria-hidden="true"><span class="stat-fill" id="stat-spice" style="--v: 0.48"></span></span><span class="stat-num" id="num-spice">48</span></div>
+              <div class="stat"><span>Cheese</span><span class="stat-track" aria-hidden="true"><span class="stat-fill" id="stat-cheese" style="--v: 0.92"></span></span><span class="stat-num" id="num-cheese">92</span></div>
+              <button class="button button-red fp-add" id="fighter-add" type="button" data-add-item="Pehelwan Stack">Add to order</button>
             </div>
           </article>
-        </div>
-        <div class="corner-menu" aria-label="Sides and drinks menu">
-          <h3>Corner crew</h3>
-          <div class="corner-menu-item"><span>🍟 Akhaara Fries — Rs 299</span><button class="button add-button" type="button" data-item="Akhaara Fries">Add to order</button></div>
-          <div class="corner-menu-item"><span>🧀 Loaded Knockout — Rs 449</span><button class="button add-button" type="button" data-item="Loaded Knockout">Add to order</button></div>
-          <div class="corner-menu-item"><span>🧅 Onion Uppercut — Rs 349</span><button class="button add-button" type="button" data-item="Onion Uppercut">Add to order</button></div>
-          <div class="corner-menu-item"><span>🥤 Cola Corner — Rs 199</span><button class="button add-button" type="button" data-item="Cola Corner">Add to order</button></div>
-          <div class="corner-menu-item"><span>🍋 Nimbu Slam — Rs 249</span><button class="button add-button" type="button" data-item="Nimbu Slam">Add to order</button></div>
-          <div class="corner-menu-item"><span>🥛 Mango Muscle — Rs 399</span><button class="button add-button" type="button" data-item="Mango Muscle">Add to order</button></div>
+
+          <div class="roster-wrap">
+            <ul class="roster" id="roster" aria-label="Fighter roster: burgers, sides and drinks">
+              <li><button class="fighter-card" type="button" aria-pressed="true" data-name="Pehelwan Stack" data-emoji="🍔" data-type="Burger" data-price="1099" data-weight="100" data-spice="48" data-cheese="92" data-hunger="full" data-champion data-desc="Triple smash patty, double cheese, Khan sauce, fries."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🍔</span><span class="fc-name">Pehelwan Stack</span><span class="fc-price">Rs 1,099</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+              <li><button class="fighter-card" type="button" aria-pressed="false" data-name="Khan Classic" data-emoji="🥊" data-type="Burger" data-price="749" data-weight="76" data-spice="30" data-cheese="70" data-hunger="proper full" data-desc="Double smash, sharp cheddar, house pickles."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🥊</span><span class="fc-name">Khan Classic</span><span class="fc-price">Rs 749</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+              <li><button class="fighter-card" type="button" aria-pressed="false" data-name="Mirchi Mania" data-emoji="🌶️" data-type="Burger" data-price="799" data-weight="64" data-spice="100" data-cheese="46" data-hunger="proper" data-desc="Smash patty, green chilli, spicy Khan sauce."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🌶️</span><span class="fc-name">Mirchi Mania</span><span class="fc-price">Rs 799</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+              <li><button class="fighter-card" type="button" aria-pressed="false" data-name="Akhaara Fries" data-emoji="🍟" data-type="Side" data-price="299" data-weight="34" data-spice="14" data-cheese="0" data-hunger="snack" data-share data-desc="Fries for the corner crew. Made for sharing."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🍟</span><span class="fc-name">Akhaara Fries</span><span class="fc-price">Rs 299</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+              <li><button class="fighter-card" type="button" aria-pressed="false" data-name="Loaded Knockout" data-emoji="🧀" data-type="Side" data-price="449" data-weight="52" data-spice="22" data-cheese="96" data-hunger="snack proper" data-share data-desc="Loaded cheesy fries that hit like a knockout."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🧀</span><span class="fc-name">Loaded Knockout</span><span class="fc-price">Rs 449</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+              <li><button class="fighter-card" type="button" aria-pressed="false" data-name="Onion Uppercut" data-emoji="🧅" data-type="Side" data-price="349" data-weight="38" data-spice="18" data-cheese="0" data-hunger="snack" data-share data-desc="Crunchy onion rings with a mean uppercut."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🧅</span><span class="fc-name">Onion Uppercut</span><span class="fc-price">Rs 349</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+              <li><button class="fighter-card" type="button" aria-pressed="false" data-name="Cola Corner" data-emoji="🥤" data-type="Drink" data-price="199" data-weight="12" data-spice="0" data-cheese="0" data-hunger="snack" data-desc="Ice-cold cola for the corner break."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🥤</span><span class="fc-name">Cola Corner</span><span class="fc-price">Rs 199</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+              <li><button class="fighter-card" type="button" aria-pressed="false" data-name="Nimbu Slam" data-emoji="🍋" data-type="Drink" data-price="249" data-weight="12" data-spice="6" data-cheese="0" data-hunger="snack" data-desc="Tangy nimbu cooler to cool the spice."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🍋</span><span class="fc-name">Nimbu Slam</span><span class="fc-price">Rs 249</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+              <li><button class="fighter-card" type="button" aria-pressed="false" data-name="Mango Muscle" data-emoji="🥛" data-type="Drink" data-price="399" data-weight="28" data-spice="0" data-cheese="0" data-hunger="snack" data-desc="Thick mango drink for post-dangal muscles."><span class="fc-inner"><span class="fc-face fc-front"><span class="fc-emoji" aria-hidden="true">🥛</span><span class="fc-name">Mango Muscle</span><span class="fc-price">Rs 399</span></span><span class="fc-face fc-back" aria-hidden="true"></span></span></button></li>
+            </ul>
+            <div class="roster-nav">
+              <button class="button button-cream" type="button" id="roster-prev">← Previous fighters</button>
+              <button class="button button-cream" type="button" id="roster-next">Next fighters →</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="builder-section" id="builder" data-round="ROUND 2" aria-labelledby="builder-title">
+    <!-- ================= ROUND 2: DANGAL ================= -->
+    <section class="section builder-section alive-dots" id="builder" data-fx data-round="ROUND 2" data-round-sub="Dangal: build your pehelwan" aria-labelledby="builder-title">
       <div class="section-inner builder-layout">
         <div>
-          <h2 class="section-heading" id="builder-title">Round 2: Build your pehelwan</h2>
-          <p class="section-intro">Stack your own champion. Every layer costs a little; at three patties, that counter gets cracked.</p>
-          <p class="round-heading">Build it. Own it.</p>
+          <div class="round-head">
+            <h2 class="section-heading" id="builder-title"><span class="sh-word">Dangal</span><span class="sh-dot" aria-hidden="true">·</span><span class="sh-urdu" lang="ur" dir="rtl">دنگل</span></h2>
+            <p class="round-tag">Round 2: Build your pehelwan</p>
+            <p class="section-intro">Stack your own champion. Every layer drops into the ring and the scoreboard counts it up.</p>
+          </div>
+          <div class="builder-rules panel">
+            <p>Bun Rs 100 · Smash patty Rs 250 · Cheese Rs 100</p>
+            <p>Chillies Rs 30 · Khan sauce Rs 50</p>
+            <p>Three patties max. After that, the counter cracks.</p>
+          </div>
         </div>
-        <div class="builder-panel">
-          <div class="builder-stack" id="builder-stack" aria-label="Your burger layers">
+        <div class="builder-panel panel">
+          <div class="builder-stage" id="builder-stack">
+            <span class="builder-plate" aria-hidden="true"></span>
             <p class="builder-empty" id="builder-empty">Your corner is waiting. Add a layer!</p>
           </div>
           <p class="patty-counter" id="patty-counter" aria-live="polite">Patties: <span id="patty-count">0</span> / 3</p>
-          <div class="builder-controls" aria-label="Burger ingredients">
-            <button class="button builder-ingredient" type="button" data-layer="bun" data-label="Bun" data-price="100">Add bun · Rs 100</button>
-            <button class="button builder-ingredient" type="button" data-layer="patty" data-label="Smash patty" data-price="250">Add patty · Rs 250</button>
-            <button class="button builder-ingredient" type="button" data-layer="cheese" data-label="Cheese" data-price="100">Add cheese · Rs 100</button>
-            <button class="button builder-ingredient" type="button" data-layer="chilli" data-label="Chillies" data-price="30">Add chillies · Rs 30</button>
-            <button class="button builder-ingredient" type="button" data-layer="sauce" data-label="Khan sauce" data-price="50">Add Khan sauce · Rs 50</button>
+          <div class="builder-controls" role="group" aria-label="Burger ingredients">
+            <button class="button builder-ingredient" type="button" data-layer="bun" data-label="Bun" data-price="100">Add bun · <span class="price-tag">Rs 100</span></button>
+            <button class="button builder-ingredient" type="button" data-layer="patty" data-label="Smash patty" data-price="250">Add patty · <span class="price-tag">Rs 250</span></button>
+            <button class="button builder-ingredient" type="button" data-layer="cheese" data-label="Cheese" data-price="100">Add cheese · <span class="price-tag">Rs 100</span></button>
+            <button class="button builder-ingredient" type="button" data-layer="chilli" data-label="Chillies" data-price="30">Add chillies · <span class="price-tag">Rs 30</span></button>
+            <button class="button builder-ingredient" type="button" data-layer="sauce" data-label="Khan sauce" data-price="50">Add Khan sauce · <span class="price-tag">Rs 50</span></button>
           </div>
-          <p class="builder-price" aria-live="polite">Total: <span id="builder-price">Rs 0</span></p>
-          <button class="button builder-add" id="builder-add" type="button" disabled>Add to order</button>
+          <div class="scoreboard" aria-live="polite">
+            <span class="scoreboard-label">Total</span>
+            <span class="scoreboard-value" id="builder-price">Rs 0</span>
+          </div>
+          <div class="builder-actions">
+            <button class="button button-red" id="builder-add" type="button" disabled>Add to order</button>
+            <button class="button button-cream" id="builder-reset" type="button" disabled>Start over</button>
+          </div>
+          <p class="builder-limit" id="builder-limit" hidden>That's a full stack, pehelwan! Add it to your order or start over.</p>
         </div>
       </div>
     </section>
 
-    <section class="story round-story" id="story" data-round="ROUND 3" aria-labelledby="story-title">
-      <div class="section-inner story-layout">
-        <div class="story-copy">
-          <h2 class="section-heading" id="story-title">Round 3: The story</h2>
-          <p class="round-heading">From akhaara to appetite</p>
-          <p>Every pehelwan knows: show up hungry, leave stronger. BurgerKhan brings that ring-side spirit to Lahore, one hot smash burger at a time.</p>
-          <p>Our signature Pehelwan Stack comes in swinging with triple smash patty, double cheese, Khan sauce and fries. No warm-up required. Bas, take a bite.</p>
-          <p class="hours">Open 6 pm to 3 am, every day</p>
+    <!-- ================= ROUND 3: MITTI ================= -->
+    <section class="section story-section alive-dots" id="story" data-fx data-round="ROUND 3" data-round-sub="Mitti: the pehelwan story" aria-labelledby="story-title">
+      <div class="story-track">
+        <div class="story-sticky">
+          <div class="section-inner">
+            <div class="round-head">
+              <h2 class="section-heading" id="story-title"><span class="sh-word">Mitti</span><span class="sh-dot" aria-hidden="true">·</span><span class="sh-urdu" lang="ur" dir="rtl">مٹی</span></h2>
+              <p class="round-tag">Round 3: From akhaara to appetite</p>
+            </div>
+            <ol class="comic" id="comic">
+              <li class="comic-panel panel">
+                <div class="panel-art" aria-hidden="true"><span class="panel-num">1</span>🤼<span class="sfx">THAP!</span></div>
+                <figure><figcaption><strong>The akhaara rule</strong>Every pehelwan knows: show up hungry, leave stronger.</figcaption></figure>
+              </li>
+              <li class="comic-panel panel">
+                <div class="panel-art" aria-hidden="true"><span class="panel-num">2</span>🔥<span class="sfx">SIZZLE!</span></div>
+                <figure><figcaption><strong>Ring-side Lahore</strong>BurgerKhan brings that ring-side spirit to Lahore, one hot smash burger at a time.</figcaption></figure>
+              </li>
+              <li class="comic-panel panel">
+                <div class="panel-art"><span class="panel-num" aria-hidden="true">3</span><button class="flex-egg" id="flex-egg" type="button" aria-haspopup="dialog" aria-label="Flex the 💪 and start Bhook Dangal">💪</button><span class="sfx" aria-hidden="true">KHAN POWER!</span></div>
+                <figure><figcaption><strong>The champion steps in</strong>Our signature Pehelwan Stack comes in swinging with triple smash patty, double cheese, Khan sauce and fries.</figcaption></figure>
+              </li>
+              <li class="comic-panel panel">
+                <div class="panel-art" aria-hidden="true"><span class="panel-num">4</span><span class="clock"><span>6 pm</span><span>to 3 am</span></span></div>
+                <figure><figcaption><strong>No warm-up required</strong>Bas, take a bite.<br><span class="hours">Open 6 pm to 3 am, every day</span></figcaption></figure>
+              </li>
+            </ol>
+            <p class="scroll-cue" aria-hidden="true">Keep scrolling, the story fights on ↓</p>
+          </div>
         </div>
-        <div class="story-callout" aria-hidden="true">💪</div>
       </div>
     </section>
 
-    <section class="order-section" id="order" data-round="FINAL ROUND" aria-labelledby="order-title">
-      <div class="section-inner order-layout">
-        <div>
-          <h2 class="section-heading" id="order-title">Final round: Place your order</h2>
-          <p class="order-note">Tell us what you want. We’ll bring the dangal to your door.</p>
-          <p class="hours">Open 6 pm to 3 am, every day</p>
-          <div class="order-bag" aria-live="polite">
-            <h3>Your corner</h3>
-            <p class="order-bag-empty" id="bag-empty">Your order bag is empty. Choose a contender!</p>
-            <ol id="bag-items" hidden></ol>
+    <!-- ================= TIME OUT: MAIDAN ================= -->
+    <section class="section delivery-section" id="delivery" data-round="TIME OUT" data-round-sub="Maidan: delivery across Lahore" aria-labelledby="delivery-title">
+      <div class="section-inner">
+        <div class="round-head">
+          <h2 class="section-heading" id="delivery-title"><span class="sh-word">Maidan</span><span class="sh-dot" aria-hidden="true">·</span><span class="sh-urdu" lang="ur" dir="rtl">میدان</span></h2>
+          <p class="round-tag">Time out: Where do we deliver?</p>
+          <p class="section-intro">Tap your area to see roughly how long the champion takes to reach your door.</p>
+        </div>
+        <div class="delivery-layout">
+          <div class="map-frame panel">
+            <svg class="lahore-map" id="lahore-map" viewBox="0 0 640 500" role="img" aria-labelledby="map-title">
+              <title id="map-title">Stylised map of BurgerKhan delivery areas in Lahore: Gulberg, DHA, Model Town, Johar Town and Bahria Town</title>
+              <defs>
+                <pattern id="map-dots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.6" fill="#1A1A1A" fill-opacity="0.22"/></pattern>
+              </defs>
+              <rect class="map-ground" width="640" height="500"/>
+              <rect class="map-dots" width="640" height="500"/>
+              <path class="canal" d="M610 30C520 90 470 150 420 212S300 238 262 300 150 420 40 488"/>
+              <path class="canal-inner" d="M610 30C520 90 470 150 420 212S300 238 262 300 150 420 40 488"/>
+              <g class="area" data-area="gulberg">
+                <polygon class="area-shape" points="238,84 352,62 424,112 404,196 300,214 232,168"/>
+                <text class="area-label" x="326" y="140" text-anchor="middle">GULBERG</text>
+                <text class="area-time" x="326" y="160" text-anchor="middle">20–30 min</text>
+              </g>
+              <g class="area" data-area="dha">
+                <polygon class="area-shape" points="452,166 588,146 616,282 562,344 442,302 424,226"/>
+                <text class="area-label" x="522" y="244" text-anchor="middle">DHA</text>
+                <text class="area-time" x="522" y="264" text-anchor="middle">30–40 min</text>
+              </g>
+              <g class="area" data-area="model-town">
+                <polygon class="area-shape" points="300,246 408,232 432,322 362,372 282,342"/>
+                <text class="area-label" x="358" y="300" text-anchor="middle">MODEL TOWN</text>
+                <text class="area-time" x="358" y="320" text-anchor="middle">25–35 min</text>
+              </g>
+              <g class="area" data-area="johar-town">
+                <polygon class="area-shape" points="112,206 248,196 268,318 198,362 104,322"/>
+                <text class="area-label" x="186" y="270" text-anchor="middle">JOHAR TOWN</text>
+                <text class="area-time" x="186" y="290" text-anchor="middle">30–40 min</text>
+              </g>
+              <g class="area" data-area="bahria-town">
+                <polygon class="area-shape" points="34,384 178,368 196,470 52,486"/>
+                <text class="area-label" x="114" y="428" text-anchor="middle">BAHRIA TOWN</text>
+                <text class="area-time" x="114" y="448" text-anchor="middle">45–60 min</text>
+              </g>
+              <text class="map-pin" id="map-pin" x="0" y="0" text-anchor="middle">📍</text>
+              <text class="map-compass" x="600" y="430" text-anchor="middle">N</text>
+              <path d="M600 470V440M592 450l8-12 8 12" fill="none" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <ul class="area-buttons" aria-label="Delivery areas">
+              <li><button class="button button-cream area-button" type="button" aria-pressed="false" data-area="gulberg">Gulberg</button></li>
+              <li><button class="button button-cream area-button" type="button" aria-pressed="false" data-area="dha">DHA</button></li>
+              <li><button class="button button-cream area-button" type="button" aria-pressed="false" data-area="model-town">Model Town</button></li>
+              <li><button class="button button-cream area-button" type="button" aria-pressed="false" data-area="johar-town">Johar Town</button></li>
+              <li><button class="button button-cream area-button" type="button" aria-pressed="false" data-area="bahria-town">Bahria Town</button></li>
+            </ul>
+            <div class="area-info panel" aria-live="polite">
+              <p class="area-info-name" id="area-name">Pick your maidan</p>
+              <p class="area-info-time" id="area-time">?? min</p>
+              <p id="area-note">Times are estimates from the kitchen to your door. Lahore traffic can add a round.</p>
+              <p>Area not on the map? DM @burgerkhan.pk and ask.</p>
+            </div>
           </div>
         </div>
-        <form class="order-form" id="order-form" novalidate>
-          <div class="field">
-            <label for="customer-name">Name</label>
-            <input id="customer-name" name="name" autocomplete="name" required>
+      </div>
+    </section>
+
+    <!-- ================= FINAL ROUND: LANGOT ================= -->
+    <section class="section order-section" id="order" data-round="FINAL ROUND" data-round-sub="Langot: place your order" aria-labelledby="order-title">
+      <div class="section-inner">
+        <div class="round-head">
+          <h2 class="section-heading" id="order-title"><span class="sh-word">Langot</span><span class="sh-dot" aria-hidden="true">·</span><span class="sh-urdu" lang="ur" dir="rtl">لنگوٹ</span></h2>
+          <p class="round-tag">Final round: Place your order</p>
+        </div>
+        <div class="order-layout">
+          <div>
+            <p class="order-note">Tell us what you want. We’ll bring the dangal to your door.</p>
+            <p class="hours">Open 6 pm to 3 am, every day</p>
+            <div class="corner-bag panel" aria-labelledby="bag-title">
+              <h3 id="bag-title">Your Corner</h3>
+              <p class="bag-empty" id="bag-empty">Your order bag is empty. Choose a contender!</p>
+              <ul class="bag-list" id="bag-list" hidden></ul>
+              <div class="scoreboard">
+                <span class="scoreboard-label">Total</span>
+                <span class="scoreboard-value" id="bag-total">Rs 0</span>
+              </div>
+            </div>
           </div>
-          <div class="field">
-            <label for="customer-phone">Phone</label>
-            <input id="customer-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0300-1234567" aria-describedby="phone-hint phone-error" required>
+
+          <div>
+            <div class="victory panel" id="victory" tabindex="-1" hidden>
+              <div class="belt" aria-hidden="true">
+                <span class="belt-strap"></span>
+                <span class="belt-plate"><span class="belt-oval"><small>Fight Night champion</small><span class="belt-name" id="belt-name">Pehelwan</span></span></span>
+              </div>
+              <p class="victory-title">Shabash pehelwan! Aapka order ring mein aa gaya.</p>
+              <p class="victory-summary" id="victory-summary"></p>
+            </div>
+
+            <form class="order-form panel" id="order-form" novalidate aria-labelledby="form-title">
+              <h3 id="form-title">Sign the fight card</h3>
+              <div class="field" id="field-name">
+                <label for="customer-name">Name</label>
+                <input id="customer-name" name="name" autocomplete="name" required aria-describedby="name-error">
+                <p class="field-error" id="name-error" hidden>Write your name so the rider knows who the champion is.</p>
+              </div>
+              <div class="field" id="field-phone">
+                <label for="customer-phone">Phone</label>
+                <input id="customer-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="0300-1234567" aria-describedby="phone-hint phone-error" required>
+                <p class="field-hint" id="phone-hint">11 digits, starting with 03. Example: 0300-1234567.</p>
+                <p class="field-error" id="phone-error" hidden>Please enter 11 digits starting with 03, like 0300-1234567. Check the number and try again.</p>
+              </div>
+              <div class="field" id="field-item">
+                <label for="order-item">Item</label>
+                <select id="order-item" name="item" required aria-describedby="item-error">
+                  <option value="">Choose your contender</option>
+                  <option>Custom Pehelwan</option>
+                  <option>Pehelwan Stack</option>
+                  <option>Khan Classic</option>
+                  <option>Mirchi Mania</option>
+                  <option>Akhaara Fries</option>
+                  <option>Loaded Knockout</option>
+                  <option>Onion Uppercut</option>
+                  <option>Cola Corner</option>
+                  <option>Nimbu Slam</option>
+                  <option>Mango Muscle</option>
+                  <option>Yaari Box</option>
+                  <option>Raat ka Dangal</option>
+                  <option>Hostel Survival Pack</option>
+                </select>
+                <p class="field-error" id="item-error" hidden>Choose a contender from the list.</p>
+              </div>
+              <div class="field" id="field-qty">
+                <label for="quantity">Quantity</label>
+                <input id="quantity" name="quantity" type="number" min="1" step="1" value="1" inputmode="numeric" required aria-describedby="qty-error">
+                <p class="field-error" id="qty-error" hidden>Set a whole number of 1 or more.</p>
+              </div>
+              <button class="button submit" type="submit">Place your order</button>
+            </form>
           </div>
-          <p class="phone-hint" id="phone-hint">11 digits, starting with 03. Example: 0300-1234567.</p>
-          <div class="field full-width">
-            <label for="order-item">Item</label>
-            <select id="order-item" name="item" required>
-              <option value="">Choose your contender</option>
-              <option>Custom Pehelwan</option>
-              <option>Pehelwan Stack</option>
-              <option>Khan Classic</option>
-              <option>Mirchi Mania</option>
-              <option>Akhaara Fries</option>
-              <option>Loaded Knockout</option>
-              <option>Onion Uppercut</option>
-              <option>Cola Corner</option>
-              <option>Nimbu Slam</option>
-              <option>Mango Muscle</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="quantity">Quantity</label>
-            <input id="quantity" name="quantity" type="number" min="1" step="1" value="1" required>
-          </div>
-          <p class="form-error" id="phone-error" role="alert" hidden>Please enter 11 digits starting with 03, like 0300-1234567. Check the number and try again.</p>
-          <p class="form-error" id="form-error" role="alert" hidden>Please enter your name, choose an item and set a whole-number quantity of at least 1.</p>
-          <p class="form-success" id="form-success" role="status" hidden>You’re in the ring! Your order details are ready.</p>
-          <button class="button" type="submit">Place your order</button>
-        </form>
+        </div>
       </div>
     </section>
   </main>
+
+  <!-- ================= BHOOK DANGAL (easter egg) ================= -->
+  <dialog class="game" id="game" aria-labelledby="game-title">
+    <div class="game-inner">
+      <button class="button button-cream game-close" type="button" id="game-close">Close</button>
+      <h2 id="game-title">Bhook Dangal</h2>
+      <p class="game-rules">Arm-wrestle the burger! Tap “Push” (or press Space) as fast as you can. Hold your side for 10 seconds, or pin the burger to win.</p>
+      <div class="arena" aria-hidden="true">
+        <div class="arm-bar" id="arm-bar"><span class="you">💪</span><span class="fist"></span><span>🍔</span></div>
+        <div class="table"></div>
+      </div>
+      <div class="game-hud">
+        <span>You 💪</span>
+        <span id="game-timer" aria-live="off">10.0s</span>
+        <span>🍔 Burger</span>
+      </div>
+      <div class="tug" aria-hidden="true"><span class="tug-marker" id="tug-marker"></span></div>
+      <div class="game-actions">
+        <button class="button button-red push-button" type="button" id="push-button">Start the dangal</button>
+        <p class="game-result" id="game-result" aria-live="polite" hidden></p>
+      </div>
+    </div>
+  </dialog>
+
+  <a class="button button-red corner-fab" id="corner-fab" href="#order">Your Corner (<span data-corner-count>0</span>)</a>
+  <p class="sr-only" id="announcer" aria-live="polite"></p>
 
   <footer class="site-footer">
     <div class="footer-inner">
       <p class="footer-brand">BURGERKHAN</p>
       <p class="brand-tagline">Dil se Khan, pait se pehelwan.</p>
       <p>@burgerkhan.pk &nbsp;·&nbsp; Lahore</p>
-      <p>Akhaaray mein utro: DM @burgerkhan.pk aur abhi order karo.</p>
+      <p class="footer-cta">Akhaaray mein utro: DM @burgerkhan.pk aur abhi order karo.</p>
     </div>
   </footer>
-
-  <script>
-    const orderForm = document.querySelector("#order-form");
-    const phoneInput = document.querySelector("#customer-phone");
-    const nameInput = document.querySelector("#customer-name");
-    const itemSelect = document.querySelector("#order-item");
-    const quantityInput = document.querySelector("#quantity");
-    const phoneError = document.querySelector("#phone-error");
-    const formError = document.querySelector("#form-error");
-    const formSuccess = document.querySelector("#form-success");
-    const bagItems = document.querySelector("#bag-items");
-    const bagEmpty = document.querySelector("#bag-empty");
-    const orderItems = new Map();
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const itemPrices = new Map([
-      ["Pehelwan Stack", 1099],
-      ["Khan Classic", 749],
-      ["Mirchi Mania", 799],
-      ["Akhaara Fries", 299],
-      ["Loaded Knockout", 449],
-      ["Onion Uppercut", 349],
-      ["Cola Corner", 199],
-      ["Nimbu Slam", 249],
-      ["Mango Muscle", 399]
-    ]);
-    const fighters = {
-      stack: {
-        name: "Pehelwan Stack",
-        emoji: "🍔",
-        description: "Triple smash patty, double cheese, Khan sauce, fries.",
-        price: 1099,
-        power: 100,
-        spice: 48,
-        cheese: 92,
-        champion: true
-      },
-      classic: {
-        name: "Khan Classic",
-        emoji: "🥊",
-        description: "Double smash, sharp cheddar, house pickles.",
-        price: 749,
-        power: 76,
-        spice: 30,
-        cheese: 70,
-        champion: false
-      },
-      mirchi: {
-        name: "Mirchi Mania",
-        emoji: "🌶️",
-        description: "Smash patty, green chilli, spicy Khan sauce.",
-        price: 799,
-        power: 70,
-        spice: 100,
-        cheese: 46,
-        champion: false
-      }
-    };
-    const builderLayers = [];
-    const roundFlash = document.querySelector("#round-flash");
-    const roundFlashTitle = document.querySelector("#round-flash-title");
-    const builderStack = document.querySelector("#builder-stack");
-    const builderEmpty = document.querySelector("#builder-empty");
-    const pattyCounter = document.querySelector("#patty-counter");
-    const pattyCountLabel = document.querySelector("#patty-count");
-    const builderPriceLabel = document.querySelector("#builder-price");
-    const builderAddButton = document.querySelector("#builder-add");
-    let builderTotal = 0;
-    let displayedBuilderTotal = 0;
-    let priceAnimation;
-    let customRecipe = "";
-
-    requestAnimationFrame(() => document.body.classList.add("page-ready"));
-
-    function formatPrice(value) {
-      return `Rs ${value.toLocaleString("en-US")}`;
-    }
-
-    function isValidPhone(value) {
-      return /^03\d{2}-?\d{7}$/.test(value);
-    }
-
-    function showDhishoom(button) {
-      if (reducedMotion.matches) return;
-      const bounds = button.getBoundingClientRect();
-      const burst = document.createElement("span");
-      burst.className = "dhishoom";
-      burst.textContent = "DHISHOOM!";
-      burst.setAttribute("aria-hidden", "true");
-      burst.style.left = `${bounds.left + bounds.width / 2}px`;
-      burst.style.top = `${bounds.top}px`;
-      document.body.append(burst);
-      window.setTimeout(() => burst.remove(), 700);
-    }
-
-    function renderBag() {
-      bagItems.replaceChildren();
-      bagEmpty.hidden = orderItems.size > 0;
-      bagItems.hidden = orderItems.size === 0;
-
-      for (const [item, quantity] of orderItems) {
-        const line = document.createElement("li");
-        const price = itemPrices.get(item);
-        const details = item === "Custom Pehelwan" && customRecipe ? ` (${customRecipe})` : "";
-        const priceText = price === undefined ? "" : ` · ${formatPrice(price)}`;
-        line.textContent = `${item}${details}${priceText} × ${quantity}`;
-        bagItems.append(line);
-      }
-    }
-
-    function setOrderItem(item, quantity) {
-      orderItems.set(item, quantity);
-      itemSelect.value = item;
-      quantityInput.value = String(quantity);
-      renderBag();
-      formSuccess.hidden = true;
-    }
-
-    function addItemToOrder(item, button) {
-      const quantity = (orderItems.get(item) || 0) + 1;
-      setOrderItem(item, quantity);
-      showDhishoom(button);
-    }
-
-    document.querySelectorAll(".add-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        addItemToOrder(button.dataset.item, button);
-      });
-    });
-
-    const fighterAddButton = document.querySelector("#fighter-add");
-    let selectedFighter = fighters.stack;
-    document.querySelectorAll(".fighter-choice").forEach((choice) => {
-      choice.addEventListener("click", () => {
-        selectedFighter = fighters[choice.dataset.fighter];
-        document.querySelectorAll(".fighter-choice").forEach((fighterChoice) => {
-          fighterChoice.setAttribute("aria-pressed", String(fighterChoice === choice));
-        });
-        document.querySelector("#fighter-emoji").textContent = selectedFighter.emoji;
-        document.querySelector("#fighter-name").textContent = selectedFighter.name;
-        document.querySelector("#fighter-description").textContent = selectedFighter.description;
-        document.querySelector("#fighter-price").textContent = formatPrice(selectedFighter.price);
-        document.querySelector("#stat-power").style.setProperty("--stat", `${selectedFighter.power}%`);
-        document.querySelector("#stat-spice").style.setProperty("--stat", `${selectedFighter.spice}%`);
-        document.querySelector("#stat-cheese").style.setProperty("--stat", `${selectedFighter.cheese}%`);
-        document.querySelector(".fighter-preview .badge").hidden = !selectedFighter.champion;
-      });
-    });
-
-    fighterAddButton.addEventListener("click", () => {
-      addItemToOrder(selectedFighter.name, fighterAddButton);
-    });
-
-    function animateBuilderPrice() {
-      if (priceAnimation) cancelAnimationFrame(priceAnimation);
-      if (reducedMotion.matches) {
-        displayedBuilderTotal = builderTotal;
-        builderPriceLabel.textContent = formatPrice(builderTotal);
-        return;
-      }
-
-      const start = displayedBuilderTotal;
-      const end = builderTotal;
-      const began = performance.now();
-      function tick(now) {
-        const progress = Math.min((now - began) / 320, 1);
-        displayedBuilderTotal = Math.round(start + (end - start) * progress);
-        builderPriceLabel.textContent = formatPrice(displayedBuilderTotal);
-        if (progress < 1) priceAnimation = requestAnimationFrame(tick);
-      }
-      priceAnimation = requestAnimationFrame(tick);
-    }
-
-    document.querySelectorAll(".builder-ingredient").forEach((button) => {
-      button.addEventListener("click", () => {
-        const type = button.dataset.layer;
-        const pattyCount = builderLayers.filter((layer) => layer.type === "patty").length;
-        if (type === "patty" && pattyCount >= 3) return;
-
-        const layer = {
-          type,
-          label: button.dataset.label,
-          price: Number(button.dataset.price)
-        };
-        builderLayers.push(layer);
-        builderEmpty.hidden = true;
-        const layerElement = document.createElement("span");
-        layerElement.className = `burger-layer ${layer.type}`;
-        layerElement.textContent = layer.label;
-        builderStack.append(layerElement);
-
-        builderTotal += layer.price;
-        const updatedPattyCount = pattyCount + (type === "patty" ? 1 : 0);
-        pattyCountLabel.textContent = String(updatedPattyCount);
-        pattyCounter.classList.toggle("cracked", updatedPattyCount === 3);
-        const pattyButton = document.querySelector('.builder-ingredient[data-layer="patty"]');
-        pattyButton.disabled = updatedPattyCount === 3;
-        builderAddButton.disabled = false;
-        animateBuilderPrice();
-        formSuccess.hidden = true;
-      });
-    });
-
-    builderAddButton.addEventListener("click", () => {
-      if (builderLayers.length === 0) return;
-      itemPrices.set("Custom Pehelwan", builderTotal);
-      customRecipe = builderLayers.map((layer) => layer.label).join(", ");
-      addItemToOrder("Custom Pehelwan", builderAddButton);
-    });
-
-    itemSelect.addEventListener("change", () => {
-      quantityInput.value = String(orderItems.get(itemSelect.value) || 1);
-      formSuccess.hidden = true;
-    });
-
-    quantityInput.addEventListener("change", () => {
-      const item = itemSelect.value;
-      const quantity = Number(quantityInput.value);
-      if (item && Number.isInteger(quantity) && quantity > 0) {
-        orderItems.set(item, quantity);
-        renderBag();
-      }
-      formSuccess.hidden = true;
-    });
-
-    phoneInput.addEventListener("blur", () => {
-      const digits = phoneInput.value.replace(/\D/g, "");
-      if (digits.length === 11 && digits.startsWith("03")) {
-        phoneInput.value = `${digits.slice(0, 4)}-${digits.slice(4)}`;
-      }
-    });
-
-    function shakeField(field) {
-      field.classList.remove("shake");
-      void field.offsetWidth;
-      field.classList.add("shake");
-      field.addEventListener("animationend", () => field.classList.remove("shake"), { once: true });
-      field.focus();
-    }
-
-    function fireConfetti() {
-      if (reducedMotion.matches) return;
-      for (let index = 0; index < 24; index += 1) {
-        const piece = document.createElement("span");
-        const angle = (Math.PI * 2 * index) / 24;
-        const distance = 90 + (index % 4) * 28;
-        piece.className = "confetti-piece";
-        piece.textContent = "🍔";
-        piece.setAttribute("aria-hidden", "true");
-        piece.style.setProperty("--drift-x", `${Math.cos(angle) * distance}px`);
-        piece.style.setProperty("--drift-y", `${Math.sin(angle) * distance - 70}px`);
-        piece.style.setProperty("--spin", `${(index % 2 ? 1 : -1) * (120 + index * 12)}deg`);
-        document.body.append(piece);
-        window.setTimeout(() => piece.remove(), 1150);
-      }
-    }
-
-    orderForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      phoneError.hidden = true;
-      formError.hidden = true;
-      formSuccess.hidden = true;
-
-      if (!isValidPhone(phoneInput.value)) {
-        phoneError.hidden = false;
-        shakeField(phoneInput);
-        return;
-      }
-
-      const quantity = Number(quantityInput.value);
-      if (!nameInput.value.trim()) {
-        formError.hidden = false;
-        shakeField(nameInput);
-        return;
-      }
-      if (!itemSelect.value) {
-        formError.hidden = false;
-        shakeField(itemSelect);
-        return;
-      }
-      if (!Number.isInteger(quantity) || quantity < 1) {
-        formError.hidden = false;
-        shakeField(quantityInput);
-        return;
-      }
-
-      orderItems.set(itemSelect.value, quantity);
-      renderBag();
-      formSuccess.hidden = false;
-      fireConfetti();
-    });
-
-    let previousScrollY = window.scrollY;
-    const siteHeader = document.querySelector(".site-header");
-    window.addEventListener("scroll", () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY < 60 || currentScrollY < previousScrollY) {
-        siteHeader.classList.remove("header-hidden");
-      } else if (currentScrollY > previousScrollY) {
-        siteHeader.classList.add("header-hidden");
-      }
-      previousScrollY = currentScrollY;
-    }, { passive: true });
-
-    let roundFlashTimeout;
-    const roundObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        roundFlashTitle.textContent = entry.target.dataset.round;
-        roundFlash.classList.remove("is-active");
-        void roundFlash.offsetWidth;
-        roundFlash.classList.add("is-active");
-        window.clearTimeout(roundFlashTimeout);
-        roundFlashTimeout = window.setTimeout(() => roundFlash.classList.remove("is-active"), 1400);
-      });
-    }, { threshold: 0.15 });
-
-    document.querySelectorAll("[data-round]").forEach((section) => roundObserver.observe(section));
-  </script>
 </body>
 </html>
